@@ -35,16 +35,16 @@ fit.
 
 ```
 <project repo>/
-├── .agents/pesu-skills/   submodule: this repo
-├── AGENTS.md           -> .agents/pesu-skills/<project>/AGENTS.md
-├── .agents/skills      -> pesu-skills/<project>/skills
-└── .claude/skills      -> ../.agents/pesu-skills/<project>/skills
+├── .agents/pesudev-skills/   submodule: this repo
+├── AGENTS.md           -> .agents/pesudev-skills/<project>/AGENTS.md
+├── .agents/skills      -> pesudev-skills/<project>/skills
+└── .claude/skills      -> ../.agents/pesudev-skills/<project>/skills
 ```
 
 `AGENTS.md` and `.agents/skills` are the standard locations every agent reads. `.claude/skills`
 points at the same folder and exists only because Claude Code does not read `.agents/skills`.
 Docs and roles need no links: `AGENTS.md` and the skills point agents at
-`.agents/pesu-skills/<project>/docs/` and `.agents/pesu-skills/<project>/agents/` directly.
+`.agents/pesudev-skills/<project>/docs/` and `.agents/pesudev-skills/<project>/agents/` directly.
 
 The links point at folders, so they never change. A new skill, doc or instruction reaches a project
 when its submodule is bumped.
@@ -67,7 +67,7 @@ The one file every agent reads in full, so keep it to a few hundred lines and po
 
 Only include what an agent cannot work out from the code. Copy what applies from `common/AGENTS.md`
 into it: an agent reads a single `AGENTS.md`, so org-wide rules only apply if they are in the
-project's file (or it explicitly tells agents to read `.agents/pesu-skills/common/AGENTS.md`).
+project's file (or it explicitly tells agents to read `.agents/pesudev-skills/common/AGENTS.md`).
 
 ### Skills
 
@@ -128,9 +128,9 @@ description: What the role does and when to use it. Say whether it is read-only.
 
 ### Paths
 
-Inside a project repo, this repo is at `.agents/pesu-skills/`. Skills, docs and roles refer to each
+Inside a project repo, this repo is at `.agents/pesudev-skills/`. Skills, docs and roles refer to each
 other and to the project's code by paths from the project repo's root (for example
-`.agents/pesu-skills/auth/docs/testing.md` or `app/pesu.py`), never by relative paths: a skill read
+`.agents/pesudev-skills/auth/docs/testing.md` or `app/pesu.py`), never by relative paths: a skill read
 through the `.agents/skills` link would resolve them to the wrong place.
 
 ## Common skills
@@ -155,10 +155,10 @@ example): agents would have two competing skills for the same task.
 1. In the project repo, on a branch, add the submodule and the links:
 
    ```bash
-   git submodule add https://github.com/pesu-dev/skills.git .agents/pesu-skills
-   ln -s .agents/pesu-skills/<project>/AGENTS.md AGENTS.md
-   ln -s pesu-skills/<project>/skills .agents/skills
-   mkdir -p .claude && ln -s ../.agents/pesu-skills/<project>/skills .claude/skills
+   git submodule add https://github.com/pesu-dev/skills.git .agents/pesudev-skills
+   ln -s .agents/pesudev-skills/<project>/AGENTS.md AGENTS.md
+   ln -s pesudev-skills/<project>/skills .agents/skills
+   mkdir -p .claude && ln -s ../.agents/pesudev-skills/<project>/skills .claude/skills
    git add .gitmodules .agents AGENTS.md .claude/skills
    ```
 
@@ -195,11 +195,11 @@ cloning, or git checks the links out as plain text files.
 
 ## Changing anything
 
-Open a pull request here, not in the project repo: everything under `.agents/pesu-skills` is a
+Open a pull request here, not in the project repo: everything under `.agents/pesudev-skills` is a
 pinned checkout of this repo. Like the pesu-dev projects, pull requests come from a branch of your
 fork that is not `main`, and target `main` (this repo has no `dev` branch, since nothing here is
 deployed). Once it merges, Dependabot opens a pull request in each project to
-bump the submodule. To try an unmerged change, run `git -C .agents/pesu-skills checkout <branch>`
+bump the submodule. To try an unmerged change, run `git -C .agents/pesudev-skills checkout <branch>`
 inside the project.
 
 ## Checks

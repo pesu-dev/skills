@@ -6,8 +6,8 @@ description: Take any pesu-auth change from request to an open pull request auto
 # Implementing a change end to end
 
 This is the orchestrator. It calls the other skills and the roles in
-`.agents/pesu-skills/auth/agents/`. The rules, boundaries and definition of done are in
-`.agents/pesu-skills/auth/docs/autonomous-workflow.md`; read it once before starting.
+`.agents/pesudev-skills/auth/agents/`. The rules, boundaries and definition of done are in
+`.agents/pesudev-skills/auth/docs/autonomous-workflow.md`; read it once before starting.
 
 **Roles:** if your tool can start sub-agents, run each role below as its own sub-agent, passing the
 role file and the inputs it lists. Otherwise follow the role file yourself for that phase. Run the

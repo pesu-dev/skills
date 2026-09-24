@@ -6,7 +6,7 @@ description: Find where things happen in pesu-auth and understand a flow before 
 # Navigating pesu-auth
 
 The codebase is small (about 700 statements in `app/`); read whole files rather than guessing from
-fragments. Background: `.agents/pesu-skills/auth/docs/architecture.md`.
+fragments. Background: `.agents/pesudev-skills/auth/docs/architecture.md`.
 
 ## Where things live
 

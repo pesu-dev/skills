@@ -5,7 +5,7 @@ description: Add or change a pesu-auth metric - MetricFamily in the registry, re
 
 # Adding a metric
 
-Read `.agents/pesu-skills/auth/docs/metrics.md` (layers, rules, invariants) first.
+Read `.agents/pesudev-skills/auth/docs/metrics.md` (layers, rules, invariants) first.
 
 ## 1. Design it
 

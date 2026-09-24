@@ -13,7 +13,7 @@ You make sure the change is proven, and that what is reported about the tests is
 
 ## Do
 
-1. Load `write-tests` and `run-tests`; read `.agents/pesu-skills/auth/docs/testing.md`.
+1. Load `write-tests` and `run-tests`; read `.agents/pesudev-skills/auth/docs/testing.md`.
 1. **Before implementation:** turn each acceptance criterion into at least one test in the right
    suite (unit by default). Run them and confirm they fail for the expected reason, not an import
    error or a typo.

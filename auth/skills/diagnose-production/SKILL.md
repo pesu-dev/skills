@@ -46,7 +46,7 @@ Reading guide (definitions in the README "`/metrics`" section):
 | `httpClients.created - closed`                                       | Should be about 1 at rest; climbing means a client leak (our bug)                                                                                                                                          |
 | `requestsInFlight`                                                   | Stuck requests if it stays high                                                                                                                                                                            |
 
-Check the accounting invariants (`.agents/pesu-skills/auth/docs/metrics.md`); if they are violated,
+Check the accounting invariants (`.agents/pesudev-skills/auth/docs/metrics.md`); if they are violated,
 the metrics code itself has a bug.
 
 ## 3. Reproduce

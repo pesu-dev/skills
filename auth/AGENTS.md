@@ -10,17 +10,17 @@ Render: production `https://pesu-auth.onrender.com`, staging `https://pesu-auth-
 
 ## Where the agent material lives
 
-Everything below is in the `.agents/pesu-skills` git submodule (the pesu-dev/skills repository).
-If `.agents/pesu-skills` is empty, run `git submodule update --init` first.
+Everything below is in the `.agents/pesudev-skills` git submodule (the pesu-dev/skills repository).
+If `.agents/pesudev-skills` is empty, run `git submodule update --init` first.
 
-| What                    | Path                                        | Use                                              |
-| ----------------------- | ------------------------------------------- | ------------------------------------------------ |
-| Skills (task playbooks) | `.agents/skills/<name>/SKILL.md`            | Load the one that matches the task (index below) |
-| Reference docs          | `.agents/pesu-skills/auth/docs/<name>.md`   | Deep background, read on demand                  |
-| Roles                   | `.agents/pesu-skills/auth/agents/<role>.md` | Personas for each phase of autonomous work       |
+| What                    | Path                                           | Use                                              |
+| ----------------------- | ---------------------------------------------- | ------------------------------------------------ |
+| Skills (task playbooks) | `.agents/skills/<name>/SKILL.md`               | Load the one that matches the task (index below) |
+| Reference docs          | `.agents/pesudev-skills/auth/docs/<name>.md`   | Deep background, read on demand                  |
+| Roles                   | `.agents/pesudev-skills/auth/agents/<role>.md` | Personas for each phase of autonomous work       |
 
 Short references such as `docs/testing.md` in this file, the skills and the roles always mean
-`.agents/pesu-skills/auth/docs/testing.md`; any other path is relative to the repository root.
+`.agents/pesudev-skills/auth/docs/testing.md`; any other path is relative to the repository root.
 
 Never edit `AGENTS.md`, `.agents/` or `.claude/skills` in this repository. They come from
 pesu-dev/skills; changes go there as a PR.
@@ -56,7 +56,7 @@ scripts/benchmark/    load and CSRF-expiry benchmarks
 .github/              workflows, PR/issue templates, CONTRIBUTING, version-check script
 ```
 
-Details: `.agents/pesu-skills/auth/docs/architecture.md`.
+Details: `.agents/pesudev-skills/auth/docs/architecture.md`.
 
 ## Rules that always apply
 
@@ -97,7 +97,7 @@ push to `dev`/`main` or `pesu-dev/auth`, trigger deploys, change repository sett
 checks. Stop and hand back when a change is breaking or security-sensitive beyond what was asked,
 needs new secrets or infrastructure, or a check still fails after three attempts. Start with the
 `implement-feature` skill; the full lifecycle, definition of done and report format are in
-`.agents/pesu-skills/auth/docs/autonomous-workflow.md`.
+`.agents/pesudev-skills/auth/docs/autonomous-workflow.md`.
 
 ## Skills
 
@@ -130,7 +130,7 @@ needs new secrets or infrastructure, or a check still fails after three attempts
 
 ## Roles
 
-In `.agents/pesu-skills/auth/agents/`. Start each as a sub-agent if your tool supports it;
+In `.agents/pesudev-skills/auth/agents/`. Start each as a sub-agent if your tool supports it;
 otherwise follow the file yourself for that phase.
 
 | Role                    | Does                                                                     |
@@ -148,6 +148,6 @@ otherwise follow the file yourself for that phase.
 
 ## Reference docs
 
-In `.agents/pesu-skills/auth/docs/`: `architecture.md`, `conventions.md`, `testing.md`,
+In `.agents/pesudev-skills/auth/docs/`: `architecture.md`, `conventions.md`, `testing.md`,
 `api-contract.md`, `metrics.md`, `upstream.md`, `ci-cd.md`, `security.md`,
 `autonomous-workflow.md`, `known-issues.md` (read this before trusting something odd in the repo).

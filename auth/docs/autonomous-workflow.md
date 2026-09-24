@@ -36,7 +36,7 @@ report described below with the exact question or blocker.
 
 ## The lifecycle
 
-| #   | Phase        | Role (`.agents/pesu-skills/auth/agents/`)                | Skills                                             | Exit criterion                                                                                                |
+| #   | Phase        | Role (`.agents/pesudev-skills/auth/agents/`)             | Skills                                             | Exit criterion                                                                                                |
 | --- | ------------ | -------------------------------------------------------- | -------------------------------------------------- | ------------------------------------------------------------------------------------------------------------- |
 | 1   | Triage       | `planner`                                                | `triage-issue`, `navigate-codebase`                | Problem restated, type classified, acceptance criteria written                                                |
 | 2   | Plan         | `planner`                                                | area skill (`add-endpoint`, `update-scraper`, ...) | Written plan: files to change, tests to add, docs to update, version impact, risks                            |
@@ -54,7 +54,7 @@ plan from phase 2 updated as reality changes it.
 
 ### Using roles
 
-The files in `.agents/pesu-skills/auth/agents/` describe roles. They are plain instructions, not
+The files in `.agents/pesudev-skills/auth/agents/` describe roles. They are plain instructions, not
 tied to any tool:
 
 - If your tool can start a separate sub-agent, start one per role and give it the role file's

@@ -5,7 +5,7 @@ description: Write pesu-auth tests that prove behaviour - choosing the suite, re
 
 # Writing tests
 
-Background and full recipes: `.agents/pesu-skills/auth/docs/testing.md`.
+Background and full recipes: `.agents/pesudev-skills/auth/docs/testing.md`.
 
 ## 1. Pick the suite
 

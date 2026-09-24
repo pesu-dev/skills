@@ -14,7 +14,7 @@ You take a verified, reviewed change and turn it into a pull request a maintaine
 
 ## Do
 
-1. Confirm the definition of done in `.agents/pesu-skills/auth/docs/autonomous-workflow.md`. If any
+1. Confirm the definition of done in `.agents/pesudev-skills/auth/docs/autonomous-workflow.md`. If any
    item is unmet, send the work back to the right role instead of opening the PR.
 1. Load `bump-version`: one bump per PR (minor, or major if breaking), `uv lock`, commit
    `chore: bump version to X.Y.Z`.
