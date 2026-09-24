@@ -1,0 +1,21 @@
+name: Pre-Commit Checks
+
+on: [ push, pull_request ]
+
+jobs:
+  pre-commit-checks:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v7
+
+      - name: Set up Python
+        uses: actions/setup-python@v7
+        with:
+          python-version: "3.14"
+
+      - name: Install uv
+        run: pip install uv
+
+      - name: Run pre-commit hooks
+        run: uvx pre-commit run --all-files --show-diff-on-failure

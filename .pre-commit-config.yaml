@@ -1,0 +1,34 @@
+repos:
+  - repo: https://github.com/pre-commit/pre-commit-hooks
+    rev: v6.0.0
+    hooks:
+      - id: end-of-file-fixer
+      - id: trailing-whitespace
+      - id: mixed-line-ending
+        args: [ --fix=lf ]
+      - id: check-yaml
+      - id: check-added-large-files
+      - id: check-merge-conflict
+      # Skills are shared by symlinking them into project folders, so a link that points nowhere or
+      # was checked out as a plain file is a skill that silently disappears for that project
+      - id: check-symlinks
+      - id: destroyed-symlinks
+
+  - repo: https://github.com/hukkin/mdformat
+    rev: 1.0.0
+    hooks:
+      - id: mdformat
+        additional_dependencies:
+          - mdformat-gfm
+          # Without it the YAML frontmatter of every SKILL.md and role file is rewritten as Markdown
+          - mdformat-frontmatter
+
+  # Python code blocks in Markdown are formatted by the ruff of every project that mounts this repo,
+  # so an example formatted differently makes a local `ruff format --check .` fail there. The line
+  # length matches the pesu-dev projects.
+  - repo: https://github.com/astral-sh/ruff-pre-commit
+    rev: v0.16.7
+    hooks:
+      - id: ruff-format
+        args: [ --line-length=120 ]
+        types_or: [ markdown ]

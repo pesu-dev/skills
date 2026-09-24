@@ -1,0 +1,5 @@
+# Shared: README, common/
+* @aditeyabaral
+
+# Each project folder is owned by that project's maintainers
+/auth/ @pesu-dev/auth-maintainers
