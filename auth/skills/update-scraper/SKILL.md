@@ -5,7 +5,7 @@ description: Change how pesu-auth reads PESU Academy - fix selectors after PESU 
 
 # Updating the PESU Academy scraper
 
-Read `.agents/pesu-skills/auth/docs/upstream.md` first. All scraping is in `app/pesu.py`.
+Read `.agents/pesudev-skills/auth/docs/upstream.md` first. All scraping is in `app/pesu.py`.
 
 ## Ground rules
 

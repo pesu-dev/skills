@@ -15,7 +15,7 @@ correct and loud when it breaks.
 ## Do
 
 1. Load `update-scraper` (and `change-upstream-client` if the request flow or client handling
-   changes); read `.agents/pesu-skills/auth/docs/upstream.md`.
+   changes); read `.agents/pesudev-skills/auth/docs/upstream.md`.
 1. Establish what PESU returns **now**: with the `.env` test account, one session at a time, fetch
    the relevant page through the existing client code or a throwaway script, and save a **redacted**
    copy outside the repo. Never commit real personal data.

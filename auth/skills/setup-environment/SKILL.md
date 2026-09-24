@@ -12,7 +12,7 @@ Run everything from the repository root.
 ```bash
 git status                       # clean? which branch?
 git remote -v                    # origin = your fork, upstream = pesu-dev/auth
-git submodule update --init      # agent material in .agents/pesu-skills
+git submodule update --init      # agent material in .agents/pesudev-skills
 ```
 
 If there is no `upstream` remote: `git remote add upstream https://github.com/pesu-dev/auth`.

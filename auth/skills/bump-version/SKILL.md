@@ -15,7 +15,7 @@ shown in `/openapi.json` and on the README badges.
 - **Minor** (`x.Y.0`, raise the minor, reset patch to 0) for everything by default: features, fixes,
   docs, refactors, dependencies.
 - **Major** (`X.0.0`) only for backwards-incompatible API or schema changes
-  (`.agents/pesu-skills/auth/docs/api-contract.md`).
+  (`.agents/pesudev-skills/auth/docs/api-contract.md`).
 - Patch releases are not used in practice.
 
 ## Steps

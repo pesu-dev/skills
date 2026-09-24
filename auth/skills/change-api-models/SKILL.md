@@ -7,7 +7,7 @@ description: Change pesu-auth request, response or profile models - add, rename,
 
 Models: `app/models/request.py` (`RequestModel`), `app/models/response.py` (`ResponseModel`),
 `app/models/profile.py` (`ProfileModel`), `app/models/metrics.py` (`MetricsModel`, see `add-metric`).
-Contract rules: `.agents/pesu-skills/auth/docs/api-contract.md`.
+Contract rules: `.agents/pesudev-skills/auth/docs/api-contract.md`.
 
 ## 1. Decide compatibility first
 

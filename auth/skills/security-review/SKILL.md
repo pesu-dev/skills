@@ -5,7 +5,7 @@ description: Security and privacy review of a pesu-auth change - credential and 
 
 # Security review
 
-Threat model and controls: `.agents/pesu-skills/auth/docs/security.md`. pesu-auth sees students'
+Threat model and controls: `.agents/pesudev-skills/auth/docs/security.md`. pesu-auth sees students'
 PESU passwords on every request; the bar is "cannot leak, even by accident".
 
 ## 1. Map the data flows in the diff

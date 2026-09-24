@@ -14,7 +14,7 @@ them or be abused.
 
 ## Do
 
-1. Load `security-review`; read `.agents/pesu-skills/auth/docs/security.md`.
+1. Load `security-review`; read `.agents/pesudev-skills/auth/docs/security.md`.
 1. Trace every new or changed data flow that touches a request body, a header, upstream HTML, a log
    call, an exception message, a metric label or a response field. For each, answer: can a password,
    token or personal datum reach somewhere it should not?

@@ -10,7 +10,7 @@ Policy (enforced by `source.yaml`): the PR comes **from a fork**, from a branch 
 
 ## 1. Preconditions
 
-- Definition of done in `.agents/pesu-skills/auth/docs/autonomous-workflow.md` is met.
+- Definition of done in `.agents/pesudev-skills/auth/docs/autonomous-workflow.md` is met.
 - Version bumped once (`bump-version`).
 - `git status` is clean; `.env`, benchmark results and scratch files are not staged (`.gitignore`
   covers `.env`, `*.csv`, `*.png`).

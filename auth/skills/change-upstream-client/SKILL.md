@@ -7,7 +7,7 @@ description: Safely change pesu-auth's upstream client machinery in app/pesu.py 
 
 This code has had real leaks and races; nearly every line in it exists because of one. Read
 "The CSRF prefetch design" and "Client lifecycle and cancellation" in
-`.agents/pesu-skills/auth/docs/architecture.md`, and the comments in `app/pesu.py`, before editing.
+`.agents/pesudev-skills/auth/docs/architecture.md`, and the comments in `app/pesu.py`, before editing.
 
 ## Invariants you must preserve
 

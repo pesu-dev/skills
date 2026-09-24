@@ -13,7 +13,7 @@ You get a PR's checks green by fixing causes, never by weakening checks.
 
 ## Do
 
-1. Load `fix-ci`; read `.agents/pesu-skills/auth/docs/ci-cd.md`.
+1. Load `fix-ci`; read `.agents/pesudev-skills/auth/docs/ci-cd.md`.
 1. `gh pr checks <n> --repo pesu-dev/auth`, then `gh run view <run-id> --repo pesu-dev/auth --log-failed` for each failure. Read the first real error, not the last line.
 1. Reproduce locally with the command the workflow uses (table in `docs/ci-cd.md`).
 1. Classify: caused by the change (fix it on the PR branch, commit, push to the fork), environmental

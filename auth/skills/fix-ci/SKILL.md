@@ -5,7 +5,7 @@ description: Diagnose and fix failing GitHub Actions checks on a pesu-auth PR or
 
 # Fixing CI
 
-Workflow reference: `.agents/pesu-skills/auth/docs/ci-cd.md`.
+Workflow reference: `.agents/pesudev-skills/auth/docs/ci-cd.md`.
 
 ## 1. Find the failure
 

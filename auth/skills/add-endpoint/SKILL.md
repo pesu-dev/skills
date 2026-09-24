@@ -5,7 +5,7 @@ description: Add a new route to pesu-auth the way the repo requires - route in a
 
 # Adding an endpoint
 
-Read `.agents/pesu-skills/auth/docs/api-contract.md` first. Decide: method, path (lowercase, no
+Read `.agents/pesudev-skills/auth/docs/api-contract.md` first. Decide: method, path (lowercase, no
 trailing slash), tag (`Authentication`, `Documentation` or `Monitoring`, or add a new tag to
 `openapi_tags` in `app/app.py`), auth (open, or protected like `/metrics`), and response shape.
 
