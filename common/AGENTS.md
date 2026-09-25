@@ -26,5 +26,5 @@ where the two disagree.
 
 `AGENTS.md` and the skills in `.agents/skills` come from the
 [pesu-dev/skills](https://github.com/pesu-dev/skills) repository, mounted as a git submodule at
-`.agents/pesudev-skills`. Do not edit `AGENTS.md`, `.agents/` or `.claude/skills` in a project
+`.agents/pesudev-skills`. Do not edit `AGENTS.md` or `.agents/` in a project
 repository: open a pull request against pesu-dev/skills instead.

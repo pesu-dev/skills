@@ -37,12 +37,14 @@ fit.
 <project repo>/
 ├── .agents/pesudev-skills/   submodule: this repo
 ├── AGENTS.md           -> .agents/pesudev-skills/<project>/AGENTS.md
-├── .agents/skills      -> pesudev-skills/<project>/skills
-└── .claude/skills      -> ../.agents/pesudev-skills/<project>/skills
+└── .agents/skills      -> pesudev-skills/<project>/skills
 ```
 
-`AGENTS.md` and `.agents/skills` are the standard locations every agent reads. `.claude/skills`
-points at the same folder and exists only because Claude Code does not read `.agents/skills`.
+Only the two standard, provider-neutral locations are used: `AGENTS.md`, which every agent reads,
+and `.agents/skills`, the Agent Skills location. No tool-specific paths (`.claude/`, `.cursor/`,
+`.github/agents/`, ...) are added. An agent that does not load skills from `.agents/skills` natively
+still finds every skill through the index in `AGENTS.md`, which gives each skill's path and when to
+use it.
 Docs and roles need no links: `AGENTS.md` and the skills point agents at
 `.agents/pesudev-skills/<project>/docs/` and `.agents/pesudev-skills/<project>/agents/` directly.
 
@@ -158,8 +160,7 @@ example): agents would have two competing skills for the same task.
    git submodule add https://github.com/pesu-dev/skills.git .agents/pesudev-skills
    ln -s .agents/pesudev-skills/<project>/AGENTS.md AGENTS.md
    ln -s pesudev-skills/<project>/skills .agents/skills
-   mkdir -p .claude && ln -s ../.agents/pesudev-skills/<project>/skills .claude/skills
-   git add .gitmodules .agents AGENTS.md .claude/skills
+   git add .gitmodules .agents AGENTS.md
    ```
 
 1. Still in the project repo, add `.github/dependabot.yml`, so updates to this repo arrive as pull

@@ -22,7 +22,7 @@ If `.agents/pesudev-skills` is empty, run `git submodule update --init` first.
 Short references such as `docs/testing.md` in this file, the skills and the roles always mean
 `.agents/pesudev-skills/auth/docs/testing.md`; any other path is relative to the repository root.
 
-Never edit `AGENTS.md`, `.agents/` or `.claude/skills` in this repository. They come from
+Never edit `AGENTS.md` or `.agents/` in this repository. They come from
 pesu-dev/skills; changes go there as a PR.
 
 ## Quick reference
@@ -100,6 +100,9 @@ needs new secrets or infrastructure, or a check still fails after three attempts
 `.agents/pesudev-skills/auth/docs/autonomous-workflow.md`.
 
 ## Skills
+
+Each skill is `.agents/skills/<name>/SKILL.md`. If your tool loads skills from `.agents/skills`, use
+them that way; otherwise, when a task matches a row below, open that `SKILL.md` and follow it.
 
 | Skill                    | Use when                                                                       |
 | ------------------------ | ------------------------------------------------------------------------------ |
