@@ -60,8 +60,9 @@ the `finally` comment in `record_request_metrics`.
 - Level follows severity: DEBUG for step-by-step tracing, INFO for lifecycle and outcomes, WARNING
   for expected failures (4xx, recoverable upstream issues), `logging.exception` only for faults that
   deserve a traceback (5xx, unexpected exceptions).
-- Username (`user=...`) is logged today. Do not add new logging of profile data, tokens or other
-  personal data; see `docs/security.md` and `docs/known-issues.md`.
+- The username (`user=...`) and the profile are logged at INFO by design, for tracing a login; do
+  not remove them. Do not add logging of tokens or of personal data beyond those; see
+  `docs/security.md`.
 
 ## API style
 
@@ -92,4 +93,6 @@ The version bump is its own commit: `chore: bump version to X.Y.Z`.
 ## Markdown
 
 `mdformat` with GFM runs on every `.md` in pre-commit. Tables are realigned and lists renumbered to
-`1.`; do not fight it. Keep README tables aligned by running the hook rather than by hand.
+`1.`; do not fight it. Keep README tables aligned by running the hook rather than by hand. Its
+`mdformat-frontmatter` plugin keeps YAML frontmatter intact; without it the frontmatter of the
+Copilot custom agents in `.github/agents/` is rewritten as Markdown and Copilot stops seeing them.

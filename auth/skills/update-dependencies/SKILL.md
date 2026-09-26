@@ -55,8 +55,8 @@ uv run pre-commit run --all-files
 
 The floor is in `requires-python`, ruff's `target-version`, the `Dockerfile` base images
 (`ghcr.io/astral-sh/uv:python3.14-alpine`, `python:3.14-alpine`), `actions/setup-python`
-`python-version` in `.github/workflows/lint.yaml` and `pre-commit.yaml`, README and CONTRIBUTING
-prerequisites. Change all of them together. Raising the floor is a breaking change for anyone
+`python-version` in `.github/workflows/lint.yaml`, `pre-commit.yaml` and
+`copilot-setup-steps.yml`, README and CONTRIBUTING prerequisites. Change all of them together. Raising the floor is a breaking change for anyone
 running from source: major version.
 
 ## requirements.txt

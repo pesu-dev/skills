@@ -1,6 +1,7 @@
 ---
 name: reviewer
 description: Independently reviews a pesu-auth diff for correctness, API compatibility, concurrency and client-lifecycle safety, metrics rules, tests, docs and conventions. Read-only. Use after implementation and before opening a PR, ideally in a fresh context.
+tools: ["read", "search", "execute", "github/*"]
 ---
 
 # Reviewer

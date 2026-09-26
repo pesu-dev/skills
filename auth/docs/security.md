@@ -6,14 +6,14 @@ relevant.
 
 ## What is sensitive
 
-| Data                                   | Where it appears             | Rule                                                                                          |
-| -------------------------------------- | ---------------------------- | --------------------------------------------------------------------------------------------- |
-| Passwords                              | request body, the login POST | Never logged, stored, echoed, or put in an exception message or metric                        |
-| Usernames (SRN/PRN/email/phone)        | logs (`user=...`)            | Already logged at INFO; do not add new places                                                 |
-| Profile data (name, email, phone, ...) | response, logs               | Do not add new logging of it; existing INFO logging is a known issue (`docs/known-issues.md`) |
-| CSRF tokens, session cookies           | upstream client              | Never log new occurrences; never reuse a client across callers                                |
-| `METRICS_TOKEN`                        | environment                  | Never logged; compared with `secrets.compare_digest` on bytes                                 |
-| `TEST_*` credentials                   | `.env`, CI secrets           | Never printed, committed, pasted into PRs, issues or logs                                     |
+| Data                                   | Where it appears             | Rule                                                                                                                                                                                       |
+| -------------------------------------- | ---------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| Passwords                              | request body, the login POST | Never logged, stored, echoed, or put in an exception message or metric                                                                                                                     |
+| Usernames (SRN/PRN/email/phone)        | logs (`user=...`)            | Already logged at INFO; do not add new places                                                                                                                                              |
+| Profile data (name, email, phone, ...) | response, logs               | Logged at INFO by design, so a login can be traced to what PESU returned: the scraped profile (`app/pesu.py`) and the auth result (`app/app.py`). Not a defect; do not remove or redact it |
+| CSRF tokens, session cookies           | upstream client              | Never log new occurrences; never reuse a client across callers                                                                                                                             |
+| `METRICS_TOKEN`                        | environment                  | Never logged; compared with `secrets.compare_digest` on bytes                                                                                                                              |
+| `TEST_*` credentials                   | `.env`, CI secrets           | Never printed, committed, pasted into PRs, issues or logs, and never given to Copilot's cloud agent (the repo's `copilot` environment or `copilot-setup-steps.yml`)                        |
 
 ## Threats and the controls that address them
 

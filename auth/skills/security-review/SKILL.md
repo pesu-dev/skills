@@ -15,19 +15,20 @@ exception message, a metric label, a response field or a file, note what data ca
 
 ## 2. Check each flow
 
-| Question                                                           | How to check                                                                                                             |
-| ------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------ |
-| Can a password reach a log, exception message, metric or response? | Follow `password`/`j_password`/body from `RequestModel` to every sink; check `logging.*` calls and f-strings in the diff |
-| Is any new personal data (name, email, phone, PRN) logged?         | Search 1 below; existing INFO profile logging is a known issue, not permission to add more                               |
-| Are tokens (CSRF, METRICS_TOKEN, cookies) logged or returned?      | Same search; never log them                                                                                              |
-| Could two callers share a session?                                 | Clients taken from the cache under the lock and closed after one login (`change-upstream-client`)                        |
-| Is new input validated strictly?                                   | Pydantic model with `strict=True`, `extra="forbid"`; lengths or formats constrained where it matters                     |
-| Can a caller create unbounded metric series or memory growth?      | Labels from closed sets only; no per-user or per-path caches                                                             |
-| Can a caller make us hammer PESU?                                  | No retries in loops, no fan-out per request                                                                              |
-| Secret comparison                                                  | `secrets.compare_digest` on bytes, as in `app/metrics/auth.py`                                                           |
-| Error detail leakage                                               | 500s generic; upstream text not forwarded to callers                                                                     |
-| New endpoint exposure                                              | Should it be open? Operational data should use the `METRICS_TOKEN` pattern; `/health` stays open                         |
-| Secrets in code, tests, fixtures, docs, commits                    | Search 2 below; read every hit                                                                                           |
+| Question                                                           | How to check                                                                                                                          |
+| ------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------- |
+| Can a password reach a log, exception message, metric or response? | Follow `password`/`j_password`/body from `RequestModel` to every sink; check `logging.*` calls and f-strings in the diff              |
+| Is any new personal data (name, email, phone, PRN) logged?         | Search 1 below; the INFO username and profile logs are deliberate (`docs/security.md`), not findings                                  |
+| Are tokens (CSRF, METRICS_TOKEN, cookies) logged or returned?      | Same search; never log them                                                                                                           |
+| Could two callers share a session?                                 | Clients taken from the cache under the lock and closed after one login (`change-upstream-client`)                                     |
+| Is new input validated strictly?                                   | Pydantic model with `strict=True`, `extra="forbid"`; lengths or formats constrained where it matters                                  |
+| Can a caller create unbounded metric series or memory growth?      | Labels from closed sets only; no per-user or per-path caches                                                                          |
+| Can a caller make us hammer PESU?                                  | No retries in loops, no fan-out per request                                                                                           |
+| Secret comparison                                                  | `secrets.compare_digest` on bytes, as in `app/metrics/auth.py`                                                                        |
+| Error detail leakage                                               | 500s generic; upstream text not forwarded to callers                                                                                  |
+| New endpoint exposure                                              | Should it be open? Operational data should use the `METRICS_TOKEN` pattern; `/health` stays open                                      |
+| Secrets in code, tests, fixtures, docs, commits                    | Search 2 below; read every hit                                                                                                        |
+| Does an agent gain secrets or write access?                        | `copilot-setup-steps.yml` sets no `env`/`secrets` and keeps `permissions: contents: read`; read-only roles' `tools` never gain `edit` |
 
 Searches over the diff:
 

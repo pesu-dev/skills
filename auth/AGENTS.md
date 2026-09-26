@@ -23,7 +23,9 @@ Short references such as `docs/testing.md` in this file, the skills and the role
 `.agents/pesudev-skills/auth/docs/testing.md`; any other path is relative to the repository root.
 
 Never edit `AGENTS.md` or `.agents/` in this repository. They come from
-pesu-dev/skills; changes go there as a PR.
+pesu-dev/skills; changes go there as a PR. Never edit `.github/agents/` by hand either: it is
+generated from the roles by `uv run python scripts/sync_agents.py`, and a pre-commit hook fails when
+it is out of date.
 
 ## Quick reference
 
@@ -42,18 +44,20 @@ docker build . --tag pesu-auth && docker run --rm -p 5000:5000 pesu-auth
 ## Repository map
 
 ```
-app/app.py            FastAPI app: lifespan, routes, exception handlers, middleware, OpenAPI override, CLI
-app/pesu.py           PESUAcademy: CSRF prefetch cache, login, profile scraping, client lifecycle
-app/models/           RequestModel, ResponseModel, ProfileModel, MetricsModel (strict, camelCase)
-app/exceptions/       PESUAcademyError and subclasses (status code lives on the exception)
-app/metrics/          collector (families), middleware, Prometheus renderer, METRICS_TOKEN auth
-app/docs/             OpenAPI request/response examples per route (enforced by tests)
-tests/unit/           offline tests, one file per concern
-tests/functional/     PESUAcademy against the real site
-tests/integration/    whole app via TestClient, real lifespan
-scripts/run_tests.py  test runner used by pre-commit and CI
-scripts/benchmark/    load and CSRF-expiry benchmarks
-.github/              workflows, PR/issue templates, CONTRIBUTING, version-check script
+app/app.py              FastAPI app: lifespan, routes, exception handlers, middleware, OpenAPI override, CLI
+app/pesu.py             PESUAcademy: CSRF prefetch cache, login, profile scraping, client lifecycle
+app/models/             RequestModel, ResponseModel, ProfileModel, MetricsModel (strict, camelCase)
+app/exceptions/         PESUAcademyError and subclasses (status code lives on the exception)
+app/metrics/            collector (families), middleware, Prometheus renderer, METRICS_TOKEN auth
+app/docs/               OpenAPI request/response examples per route (enforced by tests)
+tests/unit/             offline tests, one file per concern
+tests/functional/       PESUAcademy against the real site
+tests/integration/      whole app via TestClient, real lifespan
+scripts/run_tests.py    test runner used by pre-commit and CI
+scripts/sync_agents.py  generates .github/agents/ (Copilot custom agents) from the roles
+scripts/benchmark/      load and CSRF-expiry benchmarks
+.github/                workflows, PR/issue templates, CONTRIBUTING, version-check script
+.github/agents/         generated Copilot custom agents, one per role (never edit by hand)
 ```
 
 Details: `.agents/pesudev-skills/auth/docs/architecture.md`.
@@ -61,7 +65,8 @@ Details: `.agents/pesudev-skills/auth/docs/architecture.md`.
 ## Rules that always apply
 
 1. **Never log, print, store or echo a password, token or new personal data.** Not in logs,
-   exceptions, metrics labels, test output, commits, PRs or reports. (`docs/security.md`)
+   exceptions, metrics labels, test output, commits, PRs or reports. The username and profile are
+   logged at INFO by design, for tracing; that is not a defect. (`docs/security.md`)
 1. **Errors are exceptions.** Raise a `PESUAcademyError` subclass; the handlers render
    `{status, message, timestamp}`. Validation failures are 400, never 422 (422 means the profile
    page could not be parsed).
@@ -97,7 +102,9 @@ push to `dev`/`main` or `pesu-dev/auth`, trigger deploys, change repository sett
 checks. Stop and hand back when a change is breaking or security-sensitive beyond what was asked,
 needs new secrets or infrastructure, or a check still fails after three attempts. Start with the
 `implement-feature` skill; the full lifecycle, definition of done and report format are in
-`.agents/pesudev-skills/auth/docs/autonomous-workflow.md`.
+`.agents/pesudev-skills/auth/docs/autonomous-workflow.md`. As GitHub Copilot's cloud agent, read
+its "Copilot's cloud agent" section first: that agent opens its own pull request and runs behind a
+firewall.
 
 ## Skills
 
@@ -134,7 +141,8 @@ them that way; otherwise, when a task matches a row below, open that `SKILL.md` 
 ## Roles
 
 In `.agents/pesudev-skills/auth/agents/`. Start each as a sub-agent if your tool supports it;
-otherwise follow the file yourself for that phase.
+otherwise follow the file yourself for that phase. In GitHub Copilot each role is also a custom
+agent (`.github/agents/<role>.agent.md`), selectable from the agent picker.
 
 | Role                    | Does                                                                     |
 | ----------------------- | ------------------------------------------------------------------------ |

@@ -7,7 +7,7 @@ Contributors never clone this repo themselves.
 
 Everything is plain Markdown in agent-neutral formats: `AGENTS.md` for instructions,
 [Agent Skills](https://agentskills.io) (`SKILL.md`) for skills, and plain Markdown files for roles.
-There are no scripts to run and nothing is generated.
+This repo has no scripts to run and nothing in it is generated.
 
 ## Layout
 
@@ -37,19 +37,35 @@ fit.
 <project repo>/
 ├── .agents/pesudev-skills/   submodule: this repo
 ├── AGENTS.md           -> .agents/pesudev-skills/<project>/AGENTS.md
-└── .agents/skills      -> pesudev-skills/<project>/skills
+├── .agents/skills      -> pesudev-skills/<project>/skills
+└── .github/agents/<role>.agent.md   optional: generated Copilot wrappers for the roles
 ```
 
-Only the two standard, provider-neutral locations are used: `AGENTS.md`, which every agent reads,
-and `.agents/skills`, the Agent Skills location. No tool-specific paths (`.claude/`, `.cursor/`,
-`.github/agents/`, ...) are added. An agent that does not load skills from `.agents/skills` natively
-still finds every skill through the index in `AGENTS.md`, which gives each skill's path and when to
-use it.
-Docs and roles need no links: `AGENTS.md` and the skills point agents at
+The links use the two standard, provider-neutral locations: `AGENTS.md`, which every agent reads,
+and `.agents/skills`, the Agent Skills location. No tool-specific links (`.claude/`, `.cursor/`,
+...) are added. An agent that does not load skills from `.agents/skills` natively still finds every
+skill through the index in `AGENTS.md`, which gives each skill's path and when to use it. Docs and
+roles need no links: `AGENTS.md` and the skills point agents at
 `.agents/pesudev-skills/<project>/docs/` and `.agents/pesudev-skills/<project>/agents/` directly.
 
 The links point at folders, so they never change. A new skill, doc or instruction reaches a project
 when its submodule is bumped.
+
+### Roles as Copilot custom agents
+
+`.github/agents/` is the one tool-specific path, because a link cannot work there. On GitHub.com,
+Copilot lists custom agents only from real `.github/agents/<name>.agent.md` files on the repo's
+default branch, and GitHub does not read files through a submodule (VS Code reads the local folder,
+but the GitHub.com picker and the cloud agent do not). A project that wants its roles in Copilot's
+agent picker keeps a thin wrapper per role there: the role's frontmatter, copied verbatim, and a short body
+telling the agent to read the full role file in `.agents/pesudev-skills/<project>/agents/`. The role
+file stays the only definition.
+
+The wrappers are generated and drift-checked in the project repo, never written by hand: `auth`
+does it with `scripts/sync_agents.py` and a pre-commit hook that runs the script with `--check`. A
+submodule bump that changes a role's frontmatter fails that check until the wrappers are
+regenerated (see "Changing anything"). Copilot's cloud agent also needs the submodule checked out, which the project's
+`.github/workflows/copilot-setup-steps.yml` does.
 
 ## Writing a project folder
 
@@ -109,14 +125,15 @@ that are wrong or misleading stops agents from copying them.
 ### Roles
 
 A role describes one phase of autonomous work: planning, implementing, testing, reviewing,
-releasing. It is plain Markdown with only `name` and `description` frontmatter, so it works with
-any agent: tools that can start sub-agents run the role as one, and other tools follow the file
+releasing. It is plain Markdown with `name` and `description` frontmatter, so it works with any
+agent: tools that can start sub-agents run the role as one, and other tools follow the file
 themselves for that phase. `AGENTS.md` or a skill says which role to use when.
 
 ```markdown
 ---
 name: reviewer
 description: What the role does and when to use it. Say whether it is read-only.
+tools: ["read", "search", "execute", "github/*"]
 ---
 
 # Reviewer
@@ -127,6 +144,13 @@ description: What the role does and when to use it. Say whether it is read-only.
 ## Never
 ## Stop and escalate when
 ```
+
+`tools` is optional and only for read-only roles. It uses GitHub Copilot's tool aliases (`read`,
+`search`, `execute`, `edit`, `web`, `agent`, `github/*`), which Copilot applies to the role's
+custom agent (see [Roles as Copilot custom agents](#roles-as-copilot-custom-agents)); other tools
+ignore it. Leaving `edit` out takes away Copilot's file-editing tools, but the shell (`execute`)
+can still write files, so the role's own "Never" section remains the actual rule. Leave `tools` out
+entirely for read-write roles: no `tools` means all tools.
 
 ### Paths
 
@@ -181,6 +205,11 @@ example): agents would have two competing skills for the same task.
 
 1. Add the cloning instructions below to the project's README or `CONTRIBUTING.md`.
 
+1. Optional, if the project has roles: generate Copilot wrappers for them as described in
+   [Roles as Copilot custom agents](#roles-as-copilot-custom-agents), copying `auth`'s
+   `scripts/sync_agents.py`, its `sync-agents` pre-commit hook, `submodules: true` on the
+   pre-commit workflow's checkout, and `.github/workflows/copilot-setup-steps.yml`.
+
 ## Cloning a project
 
 ```bash
@@ -202,6 +231,13 @@ fork that is not `main`, and target `main` (this repo has no `dev` branch, since
 deployed). Once it merges, Dependabot opens a pull request in each project to
 bump the submodule. To try an unmerged change, run `git -C .agents/pesudev-skills checkout <branch>`
 inside the project.
+
+If your change adds or removes a role or edits a role's frontmatter (`name`, `description`,
+`tools`), Dependabot's pull request fails the `sync-agents` check in every project that generates
+Copilot custom agents, and Dependabot cannot regenerate them. Follow up in each such project with a
+pull request from your fork that bumps the submodule and regenerates the agents; `auth`'s
+`docs/ci-cd.md` ("Dependabot submodule bumps") has the steps. Changes to a role's body need nothing:
+the wrappers only point at it.
 
 ## Checks
 

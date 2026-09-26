@@ -10,21 +10,22 @@ fragments. Background: `.agents/pesudev-skills/auth/docs/architecture.md`.
 
 ## Where things live
 
-| Question                                 | Look in                                                                                                |
-| ---------------------------------------- | ------------------------------------------------------------------------------------------------------ |
-| What routes exist and what do they do?   | `app/app.py` (search `@app.`)                                                                          |
-| How is a login performed?                | `PESUAcademy.authenticate` in `app/pesu.py`                                                            |
-| How is the profile scraped?              | `PESUAcademy.get_profile_information`, `_extract_and_update_profile`, `PROFILE_PAGE_HEADER_TO_KEY_MAP` |
-| Which profile fields exist?              | `ProfileField` in `app/pesu.py`, `ProfileModel` in `app/models/profile.py`                             |
-| What does the request accept?            | `RequestModel` in `app/models/request.py`                                                              |
-| Which status code does an error produce? | The exception class in `app/exceptions/`; handlers in `app/app.py`                                     |
-| What metrics exist?                      | `FAMILIES` in `app/metrics/collector.py`; README "`/metrics`"                                          |
-| Where is a metric recorded?              | `rg -n "<CONSTANT_NAME>" app`                                                                          |
-| What does Swagger show?                  | `app/docs/<route>.py`, route decorators in `app/app.py`                                                |
-| How are tests run in CI?                 | `.pre-commit-config.yaml` (the `pytest` hook), `scripts/run_tests.py`                                  |
-| What does CI check?                      | `.github/workflows/*.yaml`, `docs/ci-cd.md`                                                            |
-| How is the image built?                  | `Dockerfile`                                                                                           |
-| Contribution rules                       | `.github/CONTRIBUTING.md`, `.github/PULL_REQUEST_TEMPLATE.md`                                          |
+| Question                                    | Look in                                                                                                 |
+| ------------------------------------------- | ------------------------------------------------------------------------------------------------------- |
+| What routes exist and what do they do?      | `app/app.py` (search `@app.`)                                                                           |
+| How is a login performed?                   | `PESUAcademy.authenticate` in `app/pesu.py`                                                             |
+| How is the profile scraped?                 | `PESUAcademy.get_profile_information`, `_extract_and_update_profile`, `PROFILE_PAGE_HEADER_TO_KEY_MAP`  |
+| Which profile fields exist?                 | `ProfileField` in `app/pesu.py`, `ProfileModel` in `app/models/profile.py`                              |
+| What does the request accept?               | `RequestModel` in `app/models/request.py`                                                               |
+| Which status code does an error produce?    | The exception class in `app/exceptions/`; handlers in `app/app.py`                                      |
+| What metrics exist?                         | `FAMILIES` in `app/metrics/collector.py`; README "`/metrics`"                                           |
+| Where is a metric recorded?                 | `rg -n "<CONSTANT_NAME>" app`                                                                           |
+| What does Swagger show?                     | `app/docs/<route>.py`, route decorators in `app/app.py`                                                 |
+| How are tests run in CI?                    | `.pre-commit-config.yaml` (the `pytest` hook), `scripts/run_tests.py`                                   |
+| What does CI check?                         | `.github/workflows/*.yaml`, `docs/ci-cd.md`                                                             |
+| Where do Copilot's custom agents come from? | Generated into `.github/agents/` from `.agents/pesudev-skills/auth/agents/` by `scripts/sync_agents.py` |
+| How is the image built?                     | `Dockerfile`                                                                                            |
+| Contribution rules                          | `.github/CONTRIBUTING.md`, `.github/PULL_REQUEST_TEMPLATE.md`                                           |
 
 ## Search recipes
 
