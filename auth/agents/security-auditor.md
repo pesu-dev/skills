@@ -1,6 +1,7 @@
 ---
 name: security-auditor
 description: Reviews a pesu-auth change for credential and personal-data exposure, session mixing, input validation, metric-label DoS, token handling and dependency risk. Read-only. Use for every change touching request handling, logging, upstream code, auth or dependencies.
+tools: ["read", "search", "execute", "github/*"]
 ---
 
 # Security auditor

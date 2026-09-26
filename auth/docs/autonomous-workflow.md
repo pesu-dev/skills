@@ -62,6 +62,9 @@ tied to any tool:
   sub-agents from the implementer: a fresh context reviews more honestly.
 - If it cannot, perform the role yourself: read the role file, follow it for that phase, and write
   its output before moving to the next phase.
+- In GitHub Copilot, every role is also a custom agent: pick it in the agent picker, or assign an
+  issue to it. The custom agent (`.github/agents/<role>.agent.md`) is a generated wrapper that
+  tells Copilot to read the role file, so the role file is still what it follows.
 
 ## Definition of done
 

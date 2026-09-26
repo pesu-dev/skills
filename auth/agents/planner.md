@@ -1,6 +1,7 @@
 ---
 name: planner
 description: Turns a request or GitHub issue for pesu-auth into acceptance criteria and a concrete, file-level implementation plan. Read-only. Use at the start of any change, and again when the plan stops matching reality.
+tools: ["read", "search", "execute", "github/*"]
 ---
 
 # Planner

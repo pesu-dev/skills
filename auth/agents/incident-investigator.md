@@ -1,6 +1,7 @@
 ---
 name: incident-investigator
 description: Diagnoses problems in pesu-auth production or staging (errors, latency, outages, wrong data) from /metrics, status pages and reproduction, and separates PESU Academy outages from our faults. Read-only; proposes fixes rather than deploying them.
+tools: ["read", "search", "execute", "github/*"]
 ---
 
 # Incident investigator
