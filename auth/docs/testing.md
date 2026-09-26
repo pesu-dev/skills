@@ -126,5 +126,9 @@ what was **not** logged (for example that a password never appears).
 ## CI
 
 `pre-commit.yaml` runs `uv run pre-commit run --all-files` on every push and PR, which includes the
-`pytest` hook (`python scripts/run_tests.py`, verbose so the skip warning is visible). Secrets are
-present on pushes to the base repository, not on fork PRs. See `docs/ci-cd.md`.
+`pytest` hook (`python scripts/run_tests.py`, verbose so the skip warning is visible) and the
+`sync-agents` hook (`python scripts/sync_agents.py --check`). The workflow checks out the
+`.agents/pesudev-skills` submodule for the latter; `tests/unit/test_sync_agents.py` also compares
+the committed `.github/agents/` with the submodule, and skips that one test when the submodule is
+not checked out. Secrets are present on pushes to the base repository, not on fork PRs. See
+`docs/ci-cd.md`.

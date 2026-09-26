@@ -33,6 +33,8 @@ Deployed on Render (free tier, Singapore) as a single uvicorn worker: production
 | `app/docs/*.py`                         | `ApiDocs` request/response examples per route, fed to the route decorators                            |
 | `scripts/run_tests.py`                  | The canonical test runner (coverage gate, live-test fallback)                                         |
 | `scripts/benchmark/`                    | Load and CSRF-expiry benchmarks against a running instance                                            |
+| `scripts/sync_agents.py`                | Generates `.github/agents/` from the roles in the submodule; `--check` is the `sync-agents` hook      |
+| `.github/agents/*.agent.md`             | GitHub Copilot custom agents, one generated wrapper per role; never edited by hand                    |
 | `.github/scripts/check_version_bump.py` | Used by the version-check workflow                                                                    |
 
 Module-level singletons are created in `app/app.py`: `metrics = MetricsCollector()` and
