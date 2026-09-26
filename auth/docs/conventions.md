@@ -60,8 +60,9 @@ the `finally` comment in `record_request_metrics`.
 - Level follows severity: DEBUG for step-by-step tracing, INFO for lifecycle and outcomes, WARNING
   for expected failures (4xx, recoverable upstream issues), `logging.exception` only for faults that
   deserve a traceback (5xx, unexpected exceptions).
-- Username (`user=...`) is logged today. Do not add new logging of profile data, tokens or other
-  personal data; see `docs/security.md` and `docs/known-issues.md`.
+- The username (`user=...`) and the profile are logged at INFO by design, for tracing a login; do
+  not remove them. Do not add logging of tokens or of personal data beyond those; see
+  `docs/security.md`.
 
 ## API style
 

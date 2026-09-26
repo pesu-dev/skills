@@ -65,7 +65,8 @@ Details: `.agents/pesudev-skills/auth/docs/architecture.md`.
 ## Rules that always apply
 
 1. **Never log, print, store or echo a password, token or new personal data.** Not in logs,
-   exceptions, metrics labels, test output, commits, PRs or reports. (`docs/security.md`)
+   exceptions, metrics labels, test output, commits, PRs or reports. The username and profile are
+   logged at INFO by design, for tracing; that is not a defect. (`docs/security.md`)
 1. **Errors are exceptions.** Raise a `PESUAcademyError` subclass; the handlers render
    `{status, message, timestamp}`. Validation failures are 400, never 422 (422 means the profile
    page could not be parsed).
