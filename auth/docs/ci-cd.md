@@ -26,6 +26,26 @@
 | `deploy-staging.yaml`                           | after Pre-Commit Checks succeeds on `dev`, or manual dispatch on `dev` | skips if `dev` moved past the validated commit; POSTs the Render staging deploy hook                                                                                                                                                                                                                                                                                       | none: maintainers only                                                                                                                                                      |
 | `deploy-prod.yaml`                              | manual dispatch, users listed in `vars.PROD_DEPLOYMENT_ALLOWED_USERS`  | fast-forwards `main` to `dev`, pushes images `pesu-auth:<sha>` and `:latest` to Docker Hub and GHCR, deploys staging then production via Render hooks                                                                                                                                                                                                                      | none: maintainers only                                                                                                                                                      |
 
+## Dependabot submodule bumps
+
+`.github/dependabot.yml` opens a pull request against `dev` whenever pesu-dev/skills `main` moves,
+bumping the `.agents/pesudev-skills` submodule. It is the one pull request allowed from a branch in
+`pesu-dev/auth` itself (`source.yaml` waives the fork rule for `dependabot[bot]`), and the version
+check is skipped for it.
+
+If the bump adds or removes a role or changes a role's frontmatter, `sync-agents` fails on it,
+because `.github/agents/` is out of date. Dependabot cannot fix that, and agents and contributors
+cannot push to its branch. Either:
+
+- a maintainer checks out the Dependabot branch, runs `uv run python scripts/sync_agents.py`, and
+  pushes the regenerated `.github/agents/` to it; or
+- anyone opens a pull request from their fork that bumps the submodule to the same commit
+  (`git -C .agents/pesudev-skills checkout <sha>`, then `git add .agents/pesudev-skills`), runs the
+  script, commits `.github/agents/`, and bumps the version as for any pull request. Dependabot
+  closes its own pull request once `dev` already has that commit.
+
+Agents take the second route. A bump that only changes role bodies, skills or docs passes as is.
+
 ## Deployment flow
 
 1. PR merged into `dev` → Pre-Commit Checks on `dev` (with live tests) → staging deploy

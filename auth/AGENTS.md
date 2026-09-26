@@ -101,7 +101,9 @@ push to `dev`/`main` or `pesu-dev/auth`, trigger deploys, change repository sett
 checks. Stop and hand back when a change is breaking or security-sensitive beyond what was asked,
 needs new secrets or infrastructure, or a check still fails after three attempts. Start with the
 `implement-feature` skill; the full lifecycle, definition of done and report format are in
-`.agents/pesudev-skills/auth/docs/autonomous-workflow.md`.
+`.agents/pesudev-skills/auth/docs/autonomous-workflow.md`. As GitHub Copilot's cloud agent, read
+its "Copilot's cloud agent" section first: that agent opens its own pull request and runs behind a
+firewall.
 
 ## Skills
 

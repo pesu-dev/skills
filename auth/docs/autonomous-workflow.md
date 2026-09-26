@@ -66,6 +66,20 @@ tied to any tool:
   issue to it. The custom agent (`.github/agents/<role>.agent.md`) is a generated wrapper that
   tells Copilot to read the role file, so the role file is still what it follows.
 
+### Copilot's cloud agent
+
+Copilot's cloud agent (an issue assigned to Copilot) pushes a branch to the repository it runs in
+and opens the pull request there itself. In `pesu-dev/auth` that pull request fails the origin
+policy, which accepts only forks. Run it on your fork instead: sync the fork's `dev` so it has the
+custom agents, assign the issue there, and once Copilot's pull request inside the fork is ready,
+open the fork → `pesu-dev/auth` `dev` pull request yourself. The release-manager phase then only
+checks the version bump and the pull request description.
+
+The cloud agent also runs behind GitHub's firewall by default, which blocks pesuacademy.com and the
+Render deployments unless a maintainer allowlists them. Tests that call PESU Academy fail there for
+that reason alone. Run `uv run pytest tests/unit -q`, report the run as partial, and leave the full
+`scripts/run_tests.py` run to CI and to a human with credentials.
+
 ## Definition of done
 
 - [ ] Acceptance criteria from triage are met and demonstrated (test names or command output).

@@ -53,17 +53,18 @@ when its submodule is bumped.
 
 ### Roles as Copilot custom agents
 
-`.github/agents/` is the one tool-specific path, because a link cannot work there. GitHub Copilot
-lists custom agents only from real `.github/agents/<name>.agent.md` files on the default branch, and
-GitHub does not read files through a submodule. A project that wants its roles in Copilot's agent
-picker keeps a thin wrapper per role there: the role's frontmatter, copied verbatim, and a short body
+`.github/agents/` is the one tool-specific path, because a link cannot work there. On GitHub.com,
+Copilot lists custom agents only from real `.github/agents/<name>.agent.md` files on the repo's
+default branch, and GitHub does not read files through a submodule (VS Code reads the local folder,
+but the GitHub.com picker and the cloud agent do not). A project that wants its roles in Copilot's
+agent picker keeps a thin wrapper per role there: the role's frontmatter, copied verbatim, and a short body
 telling the agent to read the full role file in `.agents/pesudev-skills/<project>/agents/`. The role
 file stays the only definition.
 
 The wrappers are generated and drift-checked in the project repo, never written by hand: `auth`
 does it with `scripts/sync_agents.py` and a pre-commit hook that runs the script with `--check`. A
-submodule bump that changes a role's frontmatter fails that check until the script is rerun on the
-same pull request. Copilot's cloud agent also needs the submodule checked out, which the project's
+submodule bump that changes a role's frontmatter fails that check until the wrappers are
+regenerated (see "Changing anything"). Copilot's cloud agent also needs the submodule checked out, which the project's
 `.github/workflows/copilot-setup-steps.yml` does.
 
 ## Writing a project folder
@@ -230,6 +231,13 @@ fork that is not `main`, and target `main` (this repo has no `dev` branch, since
 deployed). Once it merges, Dependabot opens a pull request in each project to
 bump the submodule. To try an unmerged change, run `git -C .agents/pesudev-skills checkout <branch>`
 inside the project.
+
+If your change adds or removes a role or edits a role's frontmatter (`name`, `description`,
+`tools`), Dependabot's pull request fails the `sync-agents` check in every project that generates
+Copilot custom agents, and Dependabot cannot regenerate them. Follow up in each such project with a
+pull request from your fork that bumps the submodule and regenerates the agents; `auth`'s
+`docs/ci-cd.md` ("Dependabot submodule bumps") has the steps. Changes to a role's body need nothing:
+the wrappers only point at it.
 
 ## Checks
 
