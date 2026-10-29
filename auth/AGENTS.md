@@ -48,8 +48,8 @@ docker build . --tag pesu-auth && docker run --rm -p 5000:5000 pesu-auth
 ```
 app/app.py              FastAPI app: lifespan, routes, exception handlers, middleware, OpenAPI override, CLI
 app/pesu.py             PESUAcademy: login and profile calls to PESU Academy, building the profile, client lifecycle
-app/models/             RequestModel, ResponseModel, ProfileModel, MetricsModel (strict, camelCase); upstream.py:
-                        the shapes read from PESU Academy
+app/models/             RequestModel, ResponseModel, ProfileModel, MetricsModel, HealthModel (strict, camelCase);
+                        upstream.py: the shapes read from PESU Academy
 app/exceptions/         PESUAcademyError and subclasses (status code and fixed message live on the exception)
 app/metrics/            collector (families), middleware, Prometheus renderer, METRICS_TOKEN auth
 app/docs/               OpenAPI request/response examples per route (enforced by tests)
@@ -132,10 +132,12 @@ them that way; otherwise, when a task matches a row below, open that `SKILL.md` 
 | `fix-bug`                | Something behaves wrongly; reproduce, test, fix                            |
 | `refactor`               | Restructuring without behaviour change                                     |
 | `add-endpoint`           | A new route                                                                |
+| `change-api-explorer`    | Changing the API Explorer page at `/`                                      |
 | `change-api-models`      | Changing request, response or profile fields or validation                 |
 | `update-scraper`         | PESU Academy's API changed, or a profile field is added or changed         |
 | `add-metric`             | A new counter, gauge or summary                                            |
 | `add-error-type`         | A new failure mode that needs its own status or message                    |
+| `add-configuration`      | A new or changed environment variable or command-line flag                 |
 | `change-upstream-client` | Anything touching the HTTP client, its lifecycle, timeouts or cancellation |
 | `update-dependencies`    | Adding, upgrading or removing packages, Python or tooling versions         |
 | `update-docs`            | README, `docs/`, OpenAPI docs, CONTRIBUTING, docstrings                    |
@@ -144,6 +146,7 @@ them that way; otherwise, when a task matches a row below, open that `SKILL.md` 
 | `run-locally`            | Running the app or the Docker image and smoke-testing endpoints            |
 | `benchmark`              | Measuring latency or throughput against a running instance                 |
 | `review-change`          | Reviewing a diff (yours or someone else's)                                 |
+| `review-pull-request`    | Reviewing or re-reviewing a contributor's PR for a maintainer, on GitHub   |
 | `security-review`        | Any change to input handling, logging, auth, upstream, dependencies        |
 | `bump-version`           | Preparing the version bump for a PR                                        |
 | `open-pull-request`      | Committing, pushing to the fork and opening the PR                         |

@@ -48,10 +48,12 @@ Load the area skill(s) from the plan:
 | Change                                         | Skill                    |
 | ---------------------------------------------- | ------------------------ |
 | new route                                      | `add-endpoint`           |
+| the API Explorer page at `/`                   | `change-api-explorer`    |
 | request/response/profile fields or validation  | `change-api-models`      |
 | PESU's API, login, profile fields              | `update-scraper`         |
 | new metric                                     | `add-metric`             |
 | new failure mode                               | `add-error-type`         |
+| environment variable or command-line flag      | `add-configuration`      |
 | HTTP client, lifecycle, timeouts, cancellation | `change-upstream-client` |
 | packages or tool versions                      | `update-dependencies`    |
 | restructure only                               | `refactor`               |
