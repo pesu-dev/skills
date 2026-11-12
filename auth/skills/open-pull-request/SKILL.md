@@ -5,7 +5,7 @@ description: Turn a finished pesu-auth branch into a pull request - Conventional
 
 # Opening a pull request
 
-Policy: the PR comes **from an internal branch directly within the repository** (`.github/CONTRIBUTING.md`), from a 
+Policy: the PR comes **from an internal branch directly within the repository** (`.github/CONTRIBUTING.md`), from a
 branch that is **not `main`**, and targets **`dev`** of `pesu-dev/auth`. CI's *PR source checker* enforces the last two.
 
 ## 1. Preconditions
