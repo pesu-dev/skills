@@ -8,8 +8,9 @@ where the two disagree.
 - Clone `pesu-dev/<repo>` itself and push your branch there: forks are not accepted. Pull requests
   come **from a branch of the repository** that is not `dev` or `main`, and **target `dev`**
   (`main` in repositories without a `dev` branch, such as pesu-dev/skills and pesu-dev/actions).
-  `main` is advanced only by the production workflow. Each repository's PR origin check
-  (`source.yaml`, or the *PR source checker* job of its CI) fails any PR that breaks this.
+  In repositories with a `dev` branch, `main` is advanced only by the production workflow. Each
+  repository's PR origin check (`source.yaml`, or a job in its CI workflow) fails any PR that breaks
+  this.
 - Branch names are shared by everyone who contributes, so make them specific
   (`<type>/<short-slug>`, such as `fix/token-expiry`), and push only to your own branches.
 - Commit messages follow [Conventional Commits](https://www.conventionalcommits.org/): `feat:`,

@@ -24,7 +24,7 @@ use this skill.
 
 ```bash
 gh pr view <n> --repo pesu-dev/auth --json title,author,headRefOid,mergeStateStatus,reviewDecision,body
-git fetch origin dev "+refs/pull/<n>/head:refs/pr/<n>"   # rerun to pick up new pushes
+git fetch origin dev "+refs/pull/<n>/head:refs/pr/<n>"      # rerun to pick up new pushes
 git worktree add --detach ../auth-pr-<n> pr/<n>             # outside your checkout: see below
 git -C ../auth-pr-<n> submodule update --init
 # after new pushes: git fetch origin "+refs/pull/<n>/head:refs/pr/<n>" && git -C ../auth-pr-<n> checkout --detach pr/<n>
@@ -48,9 +48,10 @@ So:
 - Never run `uv sync`, `uv run` or `pre-commit` inside the PR's worktree: its `pyproject.toml` and
   `.pre-commit-config.yaml` decide what those execute.
 - Let CI run it. PRs come from branches of `pesu-dev/auth`, so CI has already run the code, with
-  the `TEST_*` secrets and the live tests, before you review it; Render has also deployed it to
-  `https://pesuauth-dev-pr-<n>.onrender.com`, which you can use for manual checks instead of running
-  it yourself.
+  the `TEST_*` secrets and the live tests (except on Dependabot's PRs, which get no secrets), before
+  you review it. Render has also deployed it to `https://pesuauth-dev-pr-<n>.onrender.com`, which
+  you can use for manual checks instead of running it yourself, with the test account only: never
+  sign in to a preview with your own PESU credentials, since the PR's code could log them.
 - If you must run it yourself, use a throwaway container that sees only the worktree, read-only:
   ```bash
   cd ../auth-pr-<n>
@@ -148,9 +149,9 @@ it to them.
 
 ```bash
 gh api repos/pesu-dev/auth/pulls/<n>/reviews --jq '[.[] | select(.user.login=="<you>")][-1].commit_id'
-git fetch origin <last reviewed sha>                                            # if you don't have it (full SHA)
+git fetch origin <last reviewed sha>                                              # if you don't have it (full SHA)
 git diff <last reviewed sha> pr/<n>                                               # no rebase since
-diff <(git diff origin/dev...<last reviewed sha>) <(git diff origin/dev...pr/<n>)   # after a rebase
+diff <(git diff origin/dev...<last reviewed sha>) <(git diff origin/dev...pr/<n>) # after a rebase
 ```
 
 - Check every open thread against the new head. Resolve a thread only when everything it asked for

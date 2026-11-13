@@ -27,7 +27,7 @@ is the API version shown in `/openapi.json`, and the production release tags it 
 
 ```bash
 git fetch origin
-git show origin/dev:pyproject.toml | grep -m1 '^version'   # base version, e.g. version = "5.6.0"
+git show origin/dev:pyproject.toml | grep -m1 '^version'      # base version, e.g. version = "5.6.0"
 grep -m1 '^version' pyproject.toml                            # yours
 ```
 
@@ -52,4 +52,6 @@ with an upgrade flag or a changed dependency; inspect `git diff uv.lock` and kee
 in their own commit with their own justification. If it rewrote the `revision` line, your uv is older
 than CI's: `uv self update`, then relock. Never edit `uv.lock` by hand.
 
-Dependabot's submodule bumps skip the check; a PR from another branch that supersedes one does not.
+Dependabot's submodule bumps skip the check on their pull request. A PR from another branch that
+supersedes one does not, and neither does anyone else's push onto Dependabot's branch: the check is
+skipped only for runs Dependabot itself triggers, so whoever pushes there bumps the version too.

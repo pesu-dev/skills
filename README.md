@@ -230,7 +230,8 @@ Open a pull request here, not in the project repo: everything under `.agents/pes
 pinned checkout of this repo. Like the pesu-dev projects, clone this repo itself
 (`git clone https://github.com/pesu-dev/skills.git`), push a branch that is not `main` to it, and
 open the pull request from that branch to `main` (this repo has no `dev` branch, since nothing here
-is deployed). Forks are not accepted. Once it merges, Dependabot opens a pull request in each
+is deployed). Forks are not accepted; pushing a branch needs write access, which the maintainers
+grant on request on PESU Discord. Once it merges, Dependabot opens a pull request in each
 project to bump the submodule. To try an unmerged change inside a project, run
 `git -C .agents/pesudev-skills fetch origin <branch>` and then
 `git -C .agents/pesudev-skills checkout FETCH_HEAD`.

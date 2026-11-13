@@ -28,7 +28,7 @@ jobs:
         run: |
           # PRs must come from a branch of this repository: forks are not accepted
           if [ "$SOURCE_REPO" != "$TARGET_REPO" ]; then
-            echo "❌ PR comes from the fork $SOURCE_REPO. Push your branch to $TARGET_REPO and open the PR from there."
+            echo "❌ PR comes from the fork $SOURCE_REPO. Forks are not accepted: push your branch to $TARGET_REPO and open the PR from there. Pushing needs write access; README.md says how to get it."
             exit 1
           fi
 

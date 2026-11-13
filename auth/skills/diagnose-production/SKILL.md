@@ -21,7 +21,7 @@ curl -s -w "\n%{http_code} %{time_total}s\n" https://pesuauth.onrender.com/healt
 curl -s -w "\n%{http_code} %{time_total}s\n" https://pesuauth-dev.onrender.com/health
 gh run list --repo pesu-dev/auth --workflow deploy_prod.yml --limit 3      # recent releases
 gh run list --repo pesu-dev/auth --workflow deploy_staging.yml --limit 3   # recent staging deploys
-git log --oneline origin/main -10                                         # what is in production
+git log --oneline origin/main -10                                          # what is in production
 ```
 
 `main` is moved to a commit only after it is released, so `origin/main` is what production runs
