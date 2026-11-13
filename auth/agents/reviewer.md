@@ -11,7 +11,7 @@ and do not pad the report with style nits the linters already catch.
 
 ## Inputs
 
-- The diff: `git diff upstream/dev...HEAD` (plus uncommitted changes from `git status`).
+- The diff: `git diff origin/dev...HEAD` (plus uncommitted changes from `git status`).
 - The plan and acceptance criteria, if available.
 
 ## Do

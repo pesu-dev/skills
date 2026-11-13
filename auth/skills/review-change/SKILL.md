@@ -8,9 +8,9 @@ description: Review a pesu-auth diff (your own before a PR, or someone else's PR
 ## Get the diff
 
 ```bash
-git fetch upstream
-git diff upstream/dev...HEAD --stat
-git diff upstream/dev...HEAD
+git fetch origin
+git diff origin/dev...HEAD --stat
+git diff origin/dev...HEAD
 git status                                   # uncommitted work too
 # someone else's PR:
 gh pr view <n> --repo pesu-dev/auth
@@ -75,7 +75,7 @@ completeness and scope.
 
 **Release**
 
-- `version` raised by exactly one step versus `upstream/dev` (the right one of minor, patch or
+- `version` raised by exactly one step versus `origin/dev` (the right one of minor, patch or
   major), `uv.lock` matches, Conventional Commit
   messages with real bodies.
 

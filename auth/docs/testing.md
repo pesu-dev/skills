@@ -45,10 +45,11 @@ such, never as a full pass.
   never in a loop, never alongside another live run or a benchmark, and never with `-n`.
 - Never print, log or paste the values of `TEST_*` variables. The live checks name mismatched fields,
   never their values; keep it that way.
-- Fork pull requests get no secrets, so CI runs the reduced suite on every PR and the live tests only
-  on pushes to `dev`. A local live run is the only place a change to `app/pesu.py`,
-  `app/models/upstream.py` or the `/authenticate` path is verified against PESU before merge. Do it
-  when credentials are available.
+- Pull requests come from branches of `pesu-dev/auth`, which get the `TEST_*` secrets, so CI runs
+  the live tests on every PR (except Dependabot's, which get no secrets), in the merge queue and on
+  pushes to `dev`. A local live run still catches a problem with a change to `app/pesu.py`,
+  `app/models/upstream.py` or the `/authenticate` path before it is pushed. Do it when credentials
+  are available.
 - A live failure on a field comparison after a PESU app release usually means their API changed (see
   `.agents/pesudev-skills/auth/docs/upstream.md`), not that the code did.
 - A new profile field needs a `TEST_*` variable named after it, in `.env.example`, `PROFILE_VARIABLES`
@@ -156,6 +157,7 @@ cleanup (`test_a_cancellation_during_the_close_still_closes`).
 The *CI Checks* workflow (`.github/workflows/ci_checks.yml`) runs the hooks in its *Pre-commit
 hooks* job with `SKIP=pytest`, and the tests in *Test suite & coverage*
 (`uv sync --locked --all-groups`, then `scripts/run_tests.py`). The `TEST_*` secrets reach that job
-on pushes to `dev`, never on fork PRs. `tests/unit/test_sync_agents.py` compares the committed
-`.github/agents/` with the submodule, and skips that one test when the submodule is not checked out.
+on PRs other than Dependabot's, in the merge queue and on pushes to `dev`.
+`tests/unit/test_sync_agents.py` compares the committed `.github/agents/` with the submodule, and
+skips that one test when the submodule is not checked out.
 See `.agents/pesudev-skills/auth/docs/ci-cd.md`.

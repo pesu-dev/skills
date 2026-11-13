@@ -27,14 +27,15 @@ Keep a running work log (plan, decisions, commands and results); the final repor
 ## Phase 2: Branch and baseline (role: `implementer`)
 
 ```bash
-git fetch upstream
-git switch -c <type>/<short-slug> upstream/dev     # e.g. feat/health-version, fix/empty-fields-message
+git fetch origin
+git ls-remote --heads origin <type>/<short-slug>  # must print nothing: branch names are shared
+git switch -c <type>/<short-slug> origin/dev       # e.g. feat/health-version, fix/empty-fields-message
 uv sync --all-groups
 uv run pytest tests/unit -q                        # baseline must be green
 ```
 
-If `upstream` is missing or the tree is dirty, load `setup-environment` first. Never work on `dev`
-or `main`.
+If `origin` is not `pesu-dev/auth` or the tree is dirty, load `setup-environment` first. Never work
+on `dev` or `main`.
 
 ## Phase 3: Tests first (role: `test-engineer`)
 
@@ -84,7 +85,7 @@ describe the new behaviour. Re-run `uv run pytest tests/unit/test_openapi_docs.p
 
 ## Phase 7: Review (roles: `reviewer`, `security-auditor`)
 
-Load `review-change` and `security-review` against `git diff upstream/dev...HEAD`. For every
+Load `review-change` and `security-review` against `git diff origin/dev...HEAD`. For every
 blocking or should-fix finding: fix it (back to phase 4/5) or write down why it is not a problem.
 Repeat until the review is clean. Three failed rounds on the same finding → hand back.
 
@@ -92,13 +93,13 @@ Repeat until the review is clean. Three failed rounds on the same finding → ha
 
 1. Walk the definition of done in `.agents/pesudev-skills/auth/docs/autonomous-workflow.md`; every box must be true.
 1. Load `bump-version` (once per PR).
-1. Load `open-pull-request`: rebase on `upstream/dev`, final `pre-commit`, push to the fork, open
-   the PR to `dev`.
+1. Load `open-pull-request`: rebase on `origin/dev`, final `pre-commit`, push the branch, open the
+   PR to `dev`.
 
 ## Phase 9: CI (role: `ci-investigator`)
 
-Load `fix-ci` if any check on the PR fails. Push fixes to the same branch. Remember that fork PRs do
-not run the live tests in CI; state in the PR whether you ran them locally.
+Load `fix-ci` if any check on the PR fails. Push fixes to the same branch. CI runs the live tests on
+the PR; state in the PR whether you also ran them locally.
 
 ## Final report
 

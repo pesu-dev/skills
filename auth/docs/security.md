@@ -50,10 +50,22 @@ security relevant.
   files; CI checks the UID.
 - **Supply chain.** Dependencies are pinned in `uv.lock`, and the Docker build and CI install with
   `uv sync --locked`, which also refuses a lock that no longer matches `pyproject.toml`.
-- **Contributors' code on a maintainer's machine.** A fork's tests run with whatever they can reach:
-  `load_dotenv()` in `tests/conftest.py` loads the first `.env` in `tests/` or any directory above
-  it, and the GitHub CLI's token and SSH keys are readable. Fork PRs run in CI without secrets;
-  locally, a maintainer runs them only in the throwaway container `review-pull-request` describes.
+- **Contributors' code on a maintainer's machine.** A pull request's tests run with whatever they
+  can reach: `load_dotenv()` in `tests/conftest.py` loads the first `.env` in `tests/` or any
+  directory above it, and the GitHub CLI's token and SSH keys are readable. Locally, a maintainer
+  runs them only in the throwaway container `review-pull-request` describes.
+- **Write access is the trust boundary.** Contributors push branches to `pesu-dev/auth`, and a
+  workflow on any branch, including one the branch itself changes, runs with every secret
+  available to the repository: the `TEST_*` credentials CI uses for the live tests, but also
+  `RENDER_API_KEY` (the whole Render account), `DOCKER_*` and the organization's `RELEASE_BOT_*`
+  (the release bot bypasses the `dev` and `main` rulesets), until those move into deployment
+  environments. Grant write access deliberately. *CI Checks* runs with a read-only `GITHUB_TOKEN`
+  (plus `packages: write` for the image build) so that a PR's unreviewed code cannot write to the
+  repository through it; keep it that way.
+- **PR previews.** Render deploys every PR to `https://pesuauth-dev-pr-<n>.onrender.com` with
+  pesuauth-dev's environment variables, `METRICS_TOKEN` included, before anyone has reviewed it.
+  Never sign in to a preview with your own PESU credentials: the PR's code could log them. Use the
+  test account.
 
 ## Review checklist for any change
 

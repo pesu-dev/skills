@@ -8,11 +8,12 @@ this document; this file is the reference for the rules and the role handoffs.
 
 An agent working autonomously **may**: read anything in the repo; create branches; edit code, tests
 and docs; run the app, the tests (live tests once, never alongside another live run), linters,
-Docker builds and benchmarks against a local instance; commit; push **to the contributor's fork**; open a PR from the
-fork to `pesu-dev/auth` `dev`; read CI results and push fixes to its own PR branch.
+Docker builds and benchmarks against a local instance; commit; push **the branch it created** to
+`pesu-dev/auth`; open a PR from that branch to `dev`; read CI results and push fixes to its own PR
+branch.
 
-An agent **must not**: push to `pesu-dev/auth` or to any `dev`/`main` branch; merge, approve or
-close PRs it did not open; trigger or call any deploy; change repository settings, secrets or
+An agent **must not**: push to `dev` or `main`, or to a branch it did not create; delete branches;
+merge, approve or close PRs it did not open; trigger or call any deploy; change repository settings, secrets or
 variables; commit `.env` or any credential; print credentials or personal data; weaken a test, a
 coverage gate, a lint rule or a CI check to make something pass; force-push anything except its own
 unmerged PR branch.
@@ -40,7 +41,7 @@ report described below with the exact question or blocker.
 | --- | ------------ | -------------------------------------------------------- | -------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------- |
 | 1   | Triage       | `planner`                                                | `triage-issue`, `navigate-codebase`                | Problem restated, type classified, acceptance criteria written                                                   |
 | 2   | Plan         | `planner`                                                | area skill (`add-endpoint`, `update-scraper`, ...) | Written plan: files to change, tests to add, docs to update, version impact, risks                               |
-| 3   | Set up       | `implementer`                                            | `setup-environment`                                | Clean branch from `upstream/dev`, baseline tests green                                                           |
+| 3   | Set up       | `implementer`                                            | `setup-environment`                                | Clean branch from `origin/dev`, baseline tests green                                                             |
 | 4   | Test first   | `test-engineer`                                          | `write-tests`                                      | New tests written and failing for the right reason                                                               |
 | 5   | Implement    | `implementer` (+ `scraper-specialist` for upstream work) | area skill                                         | Tests pass; code follows `.agents/pesudev-skills/auth/docs/conventions.md`                                       |
 | 6   | Verify       | `test-engineer`                                          | `run-tests`, `run-locally`                         | Full suite green with 100% line and branch coverage, lint clean, app and Docker smoke pass, live run if relevant |
@@ -68,12 +69,11 @@ tied to any tool:
 
 ### Copilot's cloud agent
 
-Copilot's cloud agent (an issue assigned to Copilot) pushes a branch to the repository it runs in
-and opens the pull request there itself. Pull requests to `pesu-dev/auth` come from forks
-(`.github/CONTRIBUTING.md`), so run it on your fork instead: sync the fork's `dev` so it has the
-custom agents, assign the issue there, and once Copilot's pull request inside the fork is ready,
-open the fork → `pesu-dev/auth` `dev` pull request yourself. The release-manager phase then only
-checks the version bump and the pull request description.
+Copilot's cloud agent (an issue assigned to Copilot) pushes a `copilot/*` branch to the repository
+it runs in and opens the pull request there itself. Assign the issue in `pesu-dev/auth`: Copilot's
+pull request to `dev` is the pull request, and the PR source checker accepts it like any other
+branch of the repository. A maintainer may have to approve its workflow runs before CI starts. The
+release-manager phase then only checks the version bump and the pull request description.
 
 The cloud agent also runs behind GitHub's firewall by default, which blocks pesuacademy.com and the
 Render deployments unless a maintainer allowlists them. Tests that call PESU Academy fail there for
@@ -85,7 +85,8 @@ that reason alone. Run `uv run pytest tests/unit -q`, report the run as partial,
 - [ ] Acceptance criteria from triage are met and demonstrated (test names or command output).
 - [ ] `uv run python scripts/run_tests.py` passes, with 100% line and branch coverage.
 - [ ] Live tests run once if the change touches `app/pesu.py`, `app/models/upstream.py` or
-  `/authenticate` and credentials exist; otherwise the PR says they were not run.
+  `/authenticate` and credentials exist; otherwise the PR says they were not run locally. CI runs
+  them on the PR either way: report its result.
 - [ ] `uv run pre-commit run --all-files` passes.
 - [ ] Docker image builds, runs as UID 10001 and answers on `/health` when the change affects
   runtime, dependencies or the `Dockerfile`.
@@ -93,7 +94,7 @@ that reason alone. Run `uv run pytest tests/unit -q`, report the run as partial,
 - [ ] Review and security review have no open blocking findings.
 - [ ] Version bumped exactly one step (minor by default, patch or major where they apply), `uv.lock` in step.
 - [ ] Commits follow Conventional Commits with explanatory bodies.
-- [ ] PR opened from the fork to `dev` with the template filled in truthfully.
+- [ ] PR opened from a branch of `pesu-dev/auth` to `dev` with the template filled in truthfully.
 
 ## Reports
 

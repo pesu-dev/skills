@@ -5,9 +5,8 @@ description: Write a pull request title and description for a pesu-dev repositor
 
 # Writing a pesu-dev pull request
 
-1. Find the base. pesu-dev PRs target `dev`, so diff against it:
-   `git fetch upstream dev 2>/dev/null || git fetch origin dev`, then
-   `git log --oneline <remote>/dev..HEAD` and `git diff <remote>/dev...HEAD --stat`.
+1. Find the base. pesu-dev PRs target `dev`, so diff against it: `git fetch origin dev`, then
+   `git log --oneline origin/dev..HEAD` and `git diff origin/dev...HEAD --stat`.
 1. Read `.github/PULL_REQUEST_TEMPLATE.md`. It is the structure of the description: keep every
    heading, tick only the boxes that are true, and delete HTML comments the template tells you to
    delete. Never invent a section the template does not have.
@@ -16,5 +15,6 @@ description: Write a pull request title and description for a pesu-dev repositor
 1. Description: say what changed and why in two or three sentences, then fill in the template's
    testing section with the commands that were actually run. If something was not run, leave its
    box unticked rather than claiming it.
-1. Before opening the PR, check the branch is on a fork and is not `main`; the org's `source.yaml`
-   rejects anything else. Open it with `gh pr create --base dev --repo pesu-dev/<project>`.
+1. Before opening the PR, check the branch is pushed to `pesu-dev/<project>` itself (not a fork)
+   and is not `dev` or `main`; the repository's PR origin check rejects anything else. Open it with
+   `gh pr create --base dev --repo pesu-dev/<project>`.

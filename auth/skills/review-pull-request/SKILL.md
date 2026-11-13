@@ -24,10 +24,10 @@ use this skill.
 
 ```bash
 gh pr view <n> --repo pesu-dev/auth --json title,author,headRefOid,mergeStateStatus,reviewDecision,body
-git fetch upstream dev "+refs/pull/<n>/head:refs/pr/<n>"   # rerun to pick up new pushes
+git fetch origin dev "+refs/pull/<n>/head:refs/pr/<n>"      # rerun to pick up new pushes
 git worktree add --detach ../auth-pr-<n> pr/<n>             # outside your checkout: see below
 git -C ../auth-pr-<n> submodule update --init
-# after new pushes: git fetch upstream "+refs/pull/<n>/head:refs/pr/<n>" && git -C ../auth-pr-<n> checkout --detach pr/<n>
+# after new pushes: git fetch origin "+refs/pull/<n>/head:refs/pr/<n>" && git -C ../auth-pr-<n> checkout --detach pr/<n>
 # when done:        git worktree remove ../auth-pr-<n> && git update-ref -d refs/pr/<n>
 ```
 
@@ -47,7 +47,11 @@ So:
   with the mdformat version from your checkout's `.pre-commit-config.yaml`.
 - Never run `uv sync`, `uv run` or `pre-commit` inside the PR's worktree: its `pyproject.toml` and
   `.pre-commit-config.yaml` decide what those execute.
-- Let CI run it. Fork PRs get no secrets and run the reduced suite.
+- Let CI run it. PRs come from branches of `pesu-dev/auth`, so CI has already run the code, with
+  the `TEST_*` secrets and the live tests (except on Dependabot's PRs, which get no secrets), before
+  you review it. Render has also deployed it to `https://pesuauth-dev-pr-<n>.onrender.com`, which
+  you can use for manual checks instead of running it yourself, with the test account only: never
+  sign in to a preview with your own PESU credentials, since the PR's code could log them.
 - If you must run it yourself, use a throwaway container that sees only the worktree, read-only:
   ```bash
   cd ../auth-pr-<n>
@@ -58,7 +62,7 @@ So:
 - Never run the live tests (`secret_required`) or a benchmark on someone else's code with your
   credentials.
 
-A fork's CI runs can wait for a maintainer's approval: `gh run list --repo pesu-dev/auth --commit <sha>`
+Copilot's CI runs can wait for a maintainer's approval: `gh run list --repo pesu-dev/auth --commit <sha>`
 shows `action_required`. Read the diff before saying it is safe to run, above all any change to
 `.github/`, `scripts/`, `.pre-commit-config.yaml`, `pyproject.toml`, `uv.lock` or the `Dockerfile`,
 which CI executes. The maintainer then uses **Approve and run workflows** on the PR.
@@ -145,9 +149,9 @@ it to them.
 
 ```bash
 gh api repos/pesu-dev/auth/pulls/<n>/reviews --jq '[.[] | select(.user.login=="<you>")][-1].commit_id'
-git fetch upstream <last reviewed sha>                                            # if you don't have it (full SHA)
+git fetch origin <last reviewed sha>                                              # if you don't have it (full SHA)
 git diff <last reviewed sha> pr/<n>                                               # no rebase since
-diff <(git diff upstream/dev...<last reviewed sha>) <(git diff upstream/dev...pr/<n>)   # after a rebase
+diff <(git diff origin/dev...<last reviewed sha>) <(git diff origin/dev...pr/<n>) # after a rebase
 ```
 
 - Check every open thread against the new head. Resolve a thread only when everything it asked for
@@ -161,7 +165,7 @@ diff <(git diff upstream/dev...<last reviewed sha>) <(git diff upstream/dev...pr
 
 The `dev` ruleset (`gh api repos/pesu-dev/auth/rules/branches/dev`) requires:
 
-- **Greenlight - CI checks** passing on the head commit, after any approval the fork's runs needed;
+- **Greenlight - CI checks** passing on the head commit, after any approval Copilot's runs needed;
 - every review thread resolved;
 - an approving review from a code owner (`.github/CODEOWNERS`) given after the last push;
 - no standing "changes requested" from anyone with write access: they re-review, or a maintainer
