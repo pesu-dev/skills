@@ -35,8 +35,8 @@ exception message, a metric label, a response field or a file, note what data ca
 Searches over the diff:
 
 ```bash
-git diff upstream/dev...HEAD | rg -n "logging\.(info|warning|error|exception|debug)"   # 1. new log calls
-git diff upstream/dev...HEAD | rg -in "password|token|secret|PES[12][0-9]{3}"           # 2. secrets and PRNs
+git diff origin/dev...HEAD | rg -n "logging\.(info|warning|error|exception|debug)"   # 1. new log calls
+git diff origin/dev...HEAD | rg -in "password|token|secret|PES[12][0-9]{3}"           # 2. secrets and PRNs
 ```
 
 ## 3. Prove it

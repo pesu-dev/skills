@@ -3,7 +3,8 @@
 Agent instructions, skills and roles for pesu-dev projects, kept in one repository. Each project
 repo mounts this repo as a git submodule, so any coding agent opened in that project (Codex, Claude
 Code, Copilot, Cursor, Gemini and others) finds the project's material straight after cloning.
-Contributors never clone this repo themselves.
+A project's contributors get this repo through the submodule; clone it only to change it (see
+[Changing anything](#changing-anything)).
 
 Everything is plain Markdown in agent-neutral formats: `AGENTS.md` for instructions,
 [Agent Skills](https://agentskills.io) (`SKILL.md`) for skills, and plain Markdown files for roles.
@@ -200,8 +201,8 @@ example): agents would have two competing skills for the same task.
        target-branch: dev
    ```
 
-   Workflows that only accept pull requests from forks, or that require a version bump, need an
-   exception for `dependabot[bot]`.
+   Dependabot pushes its branches to the project repo itself, so the PR origin check accepts its
+   pull requests. Workflows that require a version bump need an exception for `dependabot[bot]`.
 
 1. Add the cloning instructions below to the project's README or `CONTRIBUTING.md`.
 
@@ -213,7 +214,7 @@ example): agents would have two competing skills for the same task.
 ## Cloning a project
 
 ```bash
-git clone --recurse-submodules https://github.com/<you>/<project>.git
+git clone --recurse-submodules https://github.com/pesu-dev/<project>.git
 # already cloned without it:
 git submodule update --init
 ```
@@ -226,16 +227,18 @@ cloning, or git checks the links out as plain text files.
 ## Changing anything
 
 Open a pull request here, not in the project repo: everything under `.agents/pesudev-skills` is a
-pinned checkout of this repo. Like the pesu-dev projects, pull requests come from a branch of your
-fork that is not `main`, and target `main` (this repo has no `dev` branch, since nothing here is
-deployed). Once it merges, Dependabot opens a pull request in each project to
-bump the submodule. To try an unmerged change, run `git -C .agents/pesudev-skills checkout <branch>`
-inside the project.
+pinned checkout of this repo. Like the pesu-dev projects, clone this repo itself
+(`git clone https://github.com/pesu-dev/skills.git`), push a branch that is not `main` to it, and
+open the pull request from that branch to `main` (this repo has no `dev` branch, since nothing here
+is deployed). Forks are not accepted. Once it merges, Dependabot opens a pull request in each
+project to bump the submodule. To try an unmerged change inside a project, run
+`git -C .agents/pesudev-skills fetch origin <branch>` and then
+`git -C .agents/pesudev-skills checkout FETCH_HEAD`.
 
 If your change adds or removes a role or edits a role's frontmatter (`name`, `description`,
 `tools`), Dependabot's pull request fails the `sync-agents` check in every project that generates
 Copilot custom agents, and Dependabot cannot regenerate them. Follow up in each such project with a
-pull request from your fork that bumps the submodule and regenerates the agents;
+pull request from a branch of that project that bumps the submodule and regenerates the agents;
 `auth/docs/ci-cd.md` ("Dependabot submodule bumps") has the steps. Changes to a role's body need nothing:
 the wrappers only point at it.
 
@@ -245,7 +248,7 @@ Two workflows run on every pull request:
 
 | Workflow                                                   | Checks                                                                                                                                                                                                                                             |
 | ---------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| Enforce PR Origin Policy (`.github/workflows/source.yaml`) | The pull request comes from a fork, not from its `main`, and targets `main`                                                                                                                                                                        |
+| Enforce PR Origin Policy (`.github/workflows/source.yaml`) | The pull request comes from a branch of this repository (not a fork) other than `main`, and targets `main`                                                                                                                                         |
 | Pre-Commit Checks (`.github/workflows/pre-commit.yaml`)    | The hooks in `.pre-commit-config.yaml`: file hygiene, links that point nowhere or were checked out as plain files, Markdown formatting (`mdformat`, keeping YAML frontmatter intact), and ruff formatting of Python code blocks at line length 120 |
 
 Nothing needs installing to contribute: CI runs the hooks, and a failure shows the diff to apply.

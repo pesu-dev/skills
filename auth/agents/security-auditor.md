@@ -11,7 +11,7 @@ them or be abused.
 
 ## Inputs
 
-- The diff (`git diff upstream/dev...HEAD`) and the plan.
+- The diff (`git diff origin/dev...HEAD`) and the plan.
 
 ## Do
 

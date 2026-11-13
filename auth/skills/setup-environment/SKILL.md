@@ -12,12 +12,19 @@ Run everything from the repository root. The human version of these steps is the
 
 ```bash
 git status                       # clean? which branch?
-git remote -v                    # origin = your fork, upstream = pesu-dev/auth
+git remote -v                    # origin = pesu-dev/auth
 git submodule update --init      # agent material in .agents/pesudev-skills
 ```
 
-If there is no `upstream` remote: `git remote add upstream https://github.com/pesu-dev/auth`.
-Then `git fetch upstream`.
+Pull requests come from branches of `pesu-dev/auth`, not forks. If `origin` is a fork (a clone made
+before that change), re-point the remotes:
+
+```bash
+git remote rename origin fork        # keep it until its branches are merged or deleted
+git remote rename upstream origin    # no upstream remote? git remote add origin https://github.com/pesu-dev/auth
+git fetch origin
+git branch -u origin/dev dev
+```
 
 ## 2. Install
 

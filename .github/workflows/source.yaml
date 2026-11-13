@@ -26,15 +26,15 @@ jobs:
 
       - name: Validate PR origin and target branch
         run: |
-          # PRs must come from a fork
-          if [ "$SOURCE_REPO" = "$TARGET_REPO" ]; then
-            echo "❌ PR must come from a fork."
+          # PRs must come from a branch of this repository: forks are not accepted
+          if [ "$SOURCE_REPO" != "$TARGET_REPO" ]; then
+            echo "❌ PR comes from the fork $SOURCE_REPO. Push your branch to $TARGET_REPO and open the PR from there."
             exit 1
           fi
 
-          # PRs cannot come from the 'main' branch of a fork
+          # PRs cannot come from the 'main' branch
           if [ "$SOURCE_BRANCH" = "main" ]; then
-            echo "❌ PR cannot come from the 'main' branch of a fork."
+            echo "❌ PR cannot come from the 'main' branch. Create a branch for your change."
             exit 1
           fi
 

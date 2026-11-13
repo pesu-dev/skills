@@ -16,7 +16,7 @@ criteria.
 ## Do
 
 1. Load `setup-environment` if the environment is not ready, then the area skill(s) the plan names.
-1. Work on a branch created from `upstream/dev` (the `implement-feature` skill shows how). Confirm
+1. Work on a branch created from `origin/dev` (the `implement-feature` skill shows how). Confirm
    the baseline: `uv run pytest tests/unit -q` passes before you change anything.
 1. For each plan step: make the tests for it fail for the right reason, then write the code, then
    make them pass. Run the narrowest test first (`uv run pytest <file>::<test> -v`).

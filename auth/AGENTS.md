@@ -101,8 +101,9 @@ Details: `.agents/pesudev-skills/auth/docs/architecture.md`.
 
 ## Contribution workflow
 
-Fork → branch from `upstream/dev` → change + tests → pre-commit green → version bump → PR to
-`pesu-dev/auth` **`dev`** from the fork (never from `main`, never to `main`). Conventional Commits
+Clone `pesu-dev/auth` → branch from `origin/dev` → change + tests → pre-commit green → version bump →
+push the branch to `pesu-dev/auth` → PR to **`dev`** (never from a fork, `dev` or `main`, never to
+`main`). Conventional Commits
 (`feat:`, `fix:`, `docs:`, `refactor:`, `test:`, `chore:`, `!` for breaking) with bodies that explain
 why. Merges to `dev` deploy to staging; production is deployed manually by maintainers.
 (`.agents/pesudev-skills/auth/docs/ci-cd.md`)
@@ -110,8 +111,8 @@ why. Merges to `dev` deploy to staging; production is deployed manually by maint
 ## Working autonomously
 
 You may take a task all the way to an **open pull request** without a human. You may not merge,
-push to `dev`/`main` or `pesu-dev/auth`, trigger deploys, change repository settings, or weaken
-checks. Stop and hand back when a change is breaking or security-sensitive beyond what was asked,
+push to `dev`/`main` or to a branch you did not create, trigger deploys, change repository
+settings, or weaken checks. Stop and hand back when a change is breaking or security-sensitive beyond what was asked,
 needs new secrets or infrastructure, or a check still fails after three attempts. Start with the
 `implement-feature` skill; the full lifecycle, definition of done and report format are in
 `.agents/pesudev-skills/auth/docs/autonomous-workflow.md`. As GitHub Copilot's cloud agent, read
@@ -149,7 +150,7 @@ them that way; otherwise, when a task matches a row below, open that `SKILL.md` 
 | `review-pull-request`    | Reviewing or re-reviewing a contributor's PR for a maintainer, on GitHub   |
 | `security-review`        | Any change to input handling, logging, auth, upstream, dependencies        |
 | `bump-version`           | Preparing the version bump for a PR                                        |
-| `open-pull-request`      | Committing, pushing to the fork and opening the PR                         |
+| `open-pull-request`      | Committing, pushing the branch and opening the PR                          |
 | `fix-ci`                 | A GitHub Actions check failed                                              |
 | `diagnose-production`    | Production or staging misbehaves; reading `/metrics` and status pages      |
 
@@ -167,7 +168,7 @@ agent (`.github/agents/<role>.agent.md`), selectable from the agent picker.
 | `reviewer`              | Independent correctness and quality review of the diff (read-only)       |
 | `security-auditor`      | Security and privacy review of the diff (read-only)                      |
 | `docs-writer`           | Keeps README, `docs/`, OpenAPI docs and comments in step with behaviour  |
-| `release-manager`       | Version bump, commits, push to fork, PR                                  |
+| `release-manager`       | Version bump, commits, push the branch, PR                               |
 | `ci-investigator`       | Diagnoses failing checks and proposes or applies fixes                   |
 | `scraper-specialist`    | Anything involving PESU Academy's API: login, profile responses, fields  |
 | `incident-investigator` | Diagnoses production/staging problems from metrics and logs (read-only)  |

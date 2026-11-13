@@ -1,12 +1,13 @@
 ---
 name: open-pull-request
-description: Turn a finished pesu-auth branch into a pull request - Conventional Commits with explanatory bodies, rebase on upstream/dev, final checks, push to the contributor's fork, and gh pr create to pesu-dev/auth dev with the PR template filled in truthfully. Use as the last step of any change. Never merges.
+description: Turn a finished pesu-auth branch into a pull request - Conventional Commits with explanatory bodies, rebase on origin/dev, final checks, push the branch to pesu-dev/auth, and gh pr create to dev with the PR template filled in truthfully. Use as the last step of any change. Never merges.
 ---
 
 # Opening a pull request
 
-Policy: the PR comes **from a fork** (`.github/CONTRIBUTING.md`), from a branch that is **not
-`main`**, and targets **`dev`** of `pesu-dev/auth`. CI's *PR source checker* enforces the last two.
+Policy: the PR comes **from a branch of `pesu-dev/auth` itself**, not a fork
+(`.github/CONTRIBUTING.md`), that branch is **not `dev` or `main`**, and the PR targets **`dev`**.
+CI's *PR source checker* enforces all three.
 
 ## 1. Preconditions
 
@@ -36,29 +37,31 @@ Types: `feat`, `fix`, `docs`, `style`, `refactor`, `test`, `chore`; `!` after th
 trailers your tool or the human requires.
 
 Tidy history before pushing if it contains fixup noise:
-`git rebase -i` is interactive; instead use `git reset --soft upstream/dev` and recommit in logical
+`git rebase -i` is interactive; instead use `git reset --soft origin/dev` and recommit in logical
 units, or leave the history as is (PRs are squash-merged).
 
 ## 3. Rebase and final checks
 
 ```bash
-git fetch upstream
-git rebase upstream/dev
+git fetch origin
+git rebase origin/dev
 uv sync --all-groups
 uv run pre-commit run --all-files
 ```
 
 Re-check the version against the new base (`bump-version`) if `dev` moved.
 
-## 4. Push to the fork
+## 4. Push the branch
 
 ```bash
-git remote -v                                # origin must be YOUR fork, not pesu-dev/auth
+git remote -v                                # origin must be pesu-dev/auth
+git branch --show-current                    # never dev or main
 git push -u origin HEAD
 ```
 
-If `origin` is `pesu-dev/auth`, stop: you need a fork (`gh repo fork pesu-dev/auth --remote`),
-then push there. Never push to `pesu-dev/auth`.
+If `origin` is a fork, the clone predates the move away from forks: load `setup-environment`,
+which re-points the remotes, then push. Push only to a branch you created; if the push is rejected
+because the branch already exists on `origin`, pick another name rather than forcing it.
 
 ## 5. Create the PR
 
@@ -80,7 +83,7 @@ Body: `.github/PULL_REQUEST_TEMPLATE.md`, filled in truthfully:
 
 ```bash
 gh pr create --repo pesu-dev/auth --base dev \
-  --head <fork-owner>:<branch> \
+  --head <branch> \
   --title "feat: ..." --body-file /path/outside/repo/pr-body.md
 ```
 
@@ -89,5 +92,5 @@ End the body with any attribution line your tool or the human requires.
 ## 6. After opening
 
 Report the PR URL. Watch the checks (`gh pr checks <n> --repo pesu-dev/auth --watch`) and load
-`fix-ci` for any failure. Fork PRs never run the live tests in CI. Do not merge, request merges, or
-ping maintainers repeatedly.
+`fix-ci` for any failure. CI runs the live tests on the PR; say in the PR whether they passed. Do
+not merge, request merges, or ping maintainers repeatedly.

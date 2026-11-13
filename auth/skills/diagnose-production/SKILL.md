@@ -21,15 +21,16 @@ curl -s -w "\n%{http_code} %{time_total}s\n" https://pesuauth.onrender.com/healt
 curl -s -w "\n%{http_code} %{time_total}s\n" https://pesuauth-dev.onrender.com/health
 gh run list --repo pesu-dev/auth --workflow deploy_prod.yml --limit 3      # recent releases
 gh run list --repo pesu-dev/auth --workflow deploy_staging.yml --limit 3   # recent staging deploys
-git log --oneline upstream/main -10                                         # what is in production
+git log --oneline origin/main -10                                         # what is in production
 ```
 
-`main` is moved to a commit only after it is released, so `upstream/main` is what production runs
+`main` is moved to a commit only after it is released, so `origin/main` is what production runs
 unless a release failed after its deploy (check the latest Deploy to Production run).
 
 `/health` reports the running `version` and its `environment`: `production` on pesuauth and `staging`
 on pesuauth-dev. `development` there means `PESU_AUTH_ENVIRONMENT` is not set on that Render
-service.
+service. A PR preview (`https://pesuauth-dev-pr-<n>.onrender.com`) also reports `staging`, because it
+copies pesuauth-dev's environment variables: check the host before trusting `environment`.
 
 ## 2. Read the metrics
 
@@ -61,7 +62,7 @@ violated, the metrics code itself has a bug.
 - Against staging or a local instance (`run-locally`), with the test account, a handful of requests.
 - Check whether PESU itself works: can the test account sign in to PESU Academy (a human, in the
   app or the browser), or through a local instance?
-- Check whether the failing behaviour exists on `upstream/dev` (staging) and on the production commit.
+- Check whether the failing behaviour exists on `origin/dev` (staging) and on the production commit.
 
 ## 4. Conclude
 

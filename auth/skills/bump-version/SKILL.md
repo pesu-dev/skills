@@ -11,7 +11,7 @@ is the API version shown in `/openapi.json`, and the production release tags it 
 
 ## Rules (from `.github/scripts/check_version_bump.py` and CONTRIBUTING)
 
-- **One bump per PR**, relative to `upstream/dev`, not per commit or feature.
+- **One bump per PR**, relative to `origin/dev`, not per commit or feature.
 - **Minor** (`x.Y+1.0`): the default, whatever the change: features, fixes, docs, refactors,
   dependencies.
 - **Patch** (`x.y.Z+1`): anything (a feature, fix, docs or tests) that was meant to be part of the
@@ -26,8 +26,8 @@ is the API version shown in `/openapi.json`, and the production release tags it 
 ## Steps
 
 ```bash
-git fetch upstream
-git show upstream/dev:pyproject.toml | grep -m1 '^version'   # base version, e.g. version = "5.6.0"
+git fetch origin
+git show origin/dev:pyproject.toml | grep -m1 '^version'   # base version, e.g. version = "5.6.0"
 grep -m1 '^version' pyproject.toml                            # yours
 ```
 
@@ -39,7 +39,7 @@ Edit `version = "X.Y.Z"` in the `[project]` table of `pyproject.toml`, then:
 ```bash
 uv lock                                       # records the new version for pesu-auth in uv.lock
 python3 .github/scripts/check_version_bump.py \
-  --base-pyproject <(git show upstream/dev:pyproject.toml) \
+  --base-pyproject <(git show origin/dev:pyproject.toml) \
   --head-pyproject pyproject.toml --head-lock uv.lock --base-ref dev
 git add pyproject.toml uv.lock
 git commit -m "chore: bump version to X.Y.Z"
@@ -52,4 +52,4 @@ with an upgrade flag or a changed dependency; inspect `git diff uv.lock` and kee
 in their own commit with their own justification. If it rewrote the `revision` line, your uv is older
 than CI's: `uv self update`, then relock. Never edit `uv.lock` by hand.
 
-Dependabot's submodule bumps skip the check; a PR from a fork that supersedes one does not.
+Dependabot's submodule bumps skip the check; a PR from another branch that supersedes one does not.
